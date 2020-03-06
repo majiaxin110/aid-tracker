@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Drawbridge</title>
+    <link rel="icon" type="image/x-icon"  th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/reference/element/index.css}">
+</head>
+<body style="margin: 0">
+<div id="container" style="background: lightgray;height: 100vh">
+    <div style="display: flex;justify-content: center;padding: 5% 0">
+        <el-card style="width: 400px;" >
+           <el-form :model="authForm" :rules="rules" ref="authForm" label-width="100px">
+               <el-form-item>
+                   <h2>SIGN IN</h2>
+               </el-form-item>
+               <el-form-item label="Username" prop="username">
+                   <el-input v-model="authForm.username"></el-input>
+               </el-form-item>
+               <el-form-item label="Password" prop="password">
+                   <el-input type="password" v-model="authForm.password"></el-input>
+               </el-form-item>
+               <el-form-item>
+                   <el-button type="primary" @click="submitFrom()">Log in</el-button>
+               </el-form-item>
+           </el-form>
+        </el-card>
+    </div>
+
+</div>
+</body>
+<script th:src="@{/reference/axios/axios.min.js}"></script>
+<script th:src="@{/reference/vue/vue.js}"></script>
+<script th:src="@{/reference/element/index.js}"></script>
+<!--<script th:src="@{/asset/login.js}"></script>-->
+<script>
+    function  aa() {
+        console.log(1234)
+    }
+    new Vue({
+        el: '#container',
+        data: function () {
+            let validation = (rule, value, callback) => {
+
+                if(value === ''){
+                    callback(new Error(rule.field+" required"))
+                }
+                if(value.length<5||value.length>13){
+                    callback(new Error(" the length of "+rule.field+" should be between 5 to 13 digits" ))
+                }
+            };
+            return{
+                authForm:{
+                    username:"",
+                    password:""
+                },
+
+                rules: {
+                    username: [
+                        { validator:validation, trigger: 'blur' },
+                    ],
+                    password:[
+                        { validator:validation, trigger: 'blur' },
+                    ]
+                }
+            }
+        },
+        methods:{
+            showLog:function () {
+                console.log(1230);
+            },
+            validateUsername:function(){},
+            submitFrom:function () {
+                let _this=this;
+                console.log(_this.authForm);
+                axios.post("/custodian-auth",_this.authForm).then(res=>{
+                    console.log(res)
+                }).catch(err=>{
+                    console.log(err);
+                    _this.$message.error('Authentication Failed !!')
+                })
+            }
+        },
+        mounted:function () {
+            console.log(123);
+        }
+    })
+</script>
+</html>

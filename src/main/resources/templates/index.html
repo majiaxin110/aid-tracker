@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Mobber</title>
+    <link rel="icon" type="image/x-icon"  th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/reference/element/index.css}">
+</head>
+<body>
+<div id="container">
+    <el-button type="primary" @click="showLog()">主要按钮</el-button>
+    <img th:src="@{/img/robot.png}" height="200" width="250"/>
+
+
+
+</div>
+</body>
+<script th:src="@{/reference/vue/vue.js}"></script>
+<script th:src="@{/reference/element/index.js}"></script>
+<script th:src="@{/asset/main.js}"></script>
+</html>

@@ -1,7 +1,5 @@
 package org.hackathon.aidtracker.system.entity;
 
-import org.hackathon.aidtracker.auth.constant.Role;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,23 +7,41 @@ import javax.persistence.*;
 public class SysUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String openId;
     private String wxNickName;
-    private boolean gender;
-    private String password;
+    private Gender gender;
     private Role role;
     private String avatarUrl;
     private String country;
     private String province;
     private String city;
+    private String orgName;
+    private OrgType orgType;
 
-    public Long getId() {
-        return id;
+
+    public static enum Gender{
+        male(1),female(2),unknown(0);
+        private Integer val;
+        Gender(Integer val){
+            this.val=val;
+        }
+        public Integer val() {
+            return val;
+        }
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public static enum Role {
+        supplier,demander,sys_keeper
+    }
+    public static enum OrgType{
+        individual(1),school(2),enterprise(3),other_with_auth(4),
+        other_without_auth(5),community(6),medical_institution(7);
+        private Integer val;
+        OrgType(Integer val){
+            this.val=val;
+        }
+        public Integer val() {
+            return val;
+        }
     }
 
     public String getOpenId() {
@@ -36,8 +52,6 @@ public class SysUser {
         this.openId = openId;
     }
 
-
-
     public String getWxNickName() {
         return wxNickName;
     }
@@ -46,20 +60,12 @@ public class SysUser {
         this.wxNickName = wxNickName;
     }
 
-    public boolean isGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Role getRole() {
@@ -100,5 +106,21 @@ public class SysUser {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public OrgType getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(OrgType orgType) {
+        this.orgType = orgType;
     }
 }

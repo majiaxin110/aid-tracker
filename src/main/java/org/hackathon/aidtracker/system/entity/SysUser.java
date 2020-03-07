@@ -16,7 +16,24 @@ public class SysUser {
     private String city;
     private String orgName;
     private OrgType orgType;
+    private String supplierLocation;    //捐赠方所在地
+    private String demanderDefaultAddress;    //接收方默认收货地址
 
+    public String getSupplierLocation() {
+        return supplierLocation;
+    }
+
+    public void setSupplierLocation(String supplierLocation) {
+        this.supplierLocation = supplierLocation;
+    }
+
+    public String getDemanderDefaultAddress() {
+        return demanderDefaultAddress;
+    }
+
+    public void setDemanderDefaultAddress(String demanderDefaultAddress) {
+        this.demanderDefaultAddress = demanderDefaultAddress;
+    }
 
     public static enum Gender{
         male(1),female(2),unknown(0);
@@ -40,7 +57,7 @@ public class SysUser {
     }
     public static enum OrgType{
         individual(1),school(2),enterprise(3),other_with_auth(4),
-        other_without_auth(5),community(6),medical_institution(7);
+        other_without_auth(5),community(6),medical_institution(7),others(8);
         private Integer val;
         OrgType(Integer val){
             this.val=val;

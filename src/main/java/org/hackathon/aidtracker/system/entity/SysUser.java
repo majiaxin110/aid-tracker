@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "at_sys_user")
 public class SysUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String openId;
     private String wxNickName;
     private Gender gender;

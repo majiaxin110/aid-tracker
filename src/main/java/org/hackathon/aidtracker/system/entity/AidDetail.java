@@ -42,6 +42,13 @@ public class AidDetail {
 
     private String detailAddress;
 
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public void setDemand(Demand demand) {
+        this.demand = demand;
+    }
 
     public Long getId() {
         return id;

@@ -125,7 +125,8 @@ public class WechatAuthenticationFilter extends AbstractAuthenticationProcessing
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         String token = JwtUtil.createToken(authResult.getName(), roles);
-        response.setHeader(SysConstant.TOKEN_HEADER, token);
+        response.addHeader(SysConstant.TOKEN_HEADER, token);
+        response.addHeader(SysConstant.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
         CommonUtil.writeJSON(response,byOpenId);
     }
     @Override

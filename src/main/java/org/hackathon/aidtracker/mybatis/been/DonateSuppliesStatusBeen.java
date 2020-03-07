@@ -9,22 +9,23 @@ package org.hackathon.aidtracker.mybatis.been;
 public class DonateSuppliesStatusBeen {
 
     private Long donSupStaId;                   //捐赠物资表ID
-    private String donateResName;               //物资种类
-    private String donateResType;               //物资规格
-    private String donateResManufacturer;       //生产厂家
-    private String donateResNum;                //数量
-    private String donateResStatus;             //物资状态
-    private String donateResShipMth;            //物流方式
-    private String donateResPro;                //发货省
-    private String donateResCity;               //发货市
-    private String donaterName;                 //姓名
-    private String donaterWxId;                 //微信
-    private String donaterQqId;                 //QQ
-    private String donaterPhone;                //电话
-    private String donaterEmail;                //邮箱
-    private String donaterNote;                 //备注
     private Long demandId;                      //捐赠需求ID
-    private int donateSupSta;                   //捐赠物资表状态
+    private String donateResCity;               //发货市
+    private String donateResManufacturer;       //生产厂家
+    private String donateResName;               //物资种类
+    private String donateResNum;                //数量
+    private String donateResPro;                //发货省
+    private String donateResShipMth;            //物流方式
+    private String donateResStatus;             //物资状态
+    private String donateResType;               //物资规格
+    private int donateSupSta;                   //捐赠物资表状态 0-草稿 1-等待回复 2-填写物流信息 3-物流追踪 4-完成
+    private String donaterEmail;                //邮箱
+    private String donaterName;                 //姓名
+    private String donaterNote;                 //备注
+    private String donaterPhone;                //电话
+    private String donaterQqId;                 //QQ
+    private String donaterWxId;                 //微信
+    private int userId;                         //用户ID
 
     public Long getDonSupStaId() {
         return donSupStaId;
@@ -160,5 +161,13 @@ public class DonateSuppliesStatusBeen {
 
     public void setDonateSupSta(int donateSupSta) {
         this.donateSupSta = donateSupSta;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

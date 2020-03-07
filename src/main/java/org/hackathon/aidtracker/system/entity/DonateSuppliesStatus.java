@@ -48,6 +48,8 @@ public class DonateSuppliesStatus {
     private Long DemandId;
     //捐赠物资表状态
     private int donateSupSta;
+    //用户ID
+    private int userId;
 
     public Long getDonSupStaId() {
         return donSupStaId;
@@ -183,5 +185,13 @@ public class DonateSuppliesStatus {
 
     public void setDonateSupSta(int donateSupSta) {
         this.donateSupSta = donateSupSta;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

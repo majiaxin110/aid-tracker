@@ -45,6 +45,75 @@ public class SupplierServiceImpl implements SupplierService {
     //提交捐赠物资表
     @Override
     public int subDonateSupplies(DonateSuppliesStatusBeen donSupStat) {
+        Map<String, Object> subDonSupMap = donSupStatToMap(donSupStat);
+        subDonSupMap.put("donateSupSta", 1);
+        int leftNum = supplierMapper.quarryLiftNum(donSupStat.getDemandId());
+        Map<String, Object> upDateDemLeftNumMap = new HashMap<String, Object>();
+
+        if (leftNum >= Integer.parseInt(donSupStat.getDonateResNum())) {
+            int newLeftNum = leftNum - Integer.parseInt(donSupStat.getDonateResNum());
+            upDateDemLeftNumMap.put("donateResNum", newLeftNum);
+            upDateDemLeftNumMap.put("demandId", donSupStat.getDemandId());
+        } else {
+            return 4;
+        }
+
+        List<DonateSuppliesStatusBeen> resultList = supplierMapper.quarryIfExistDraft(subDonSupMap.get("demandId"), subDonSupMap.get("userId"));
+
+        int i = 0;
+        boolean ifCreate = true;
+
+        for (int j = 0; j < resultList.size(); j++) {
+            if (resultList.get(j).getDonateSupSta() == 0) {
+                subDonSupMap.put("donSupStaId", resultList.get(j).getDonSupStaId());
+                i = supplierMapper.updateDonateSupplies(subDonSupMap);
+                ifCreate = false;
+            }
+        }
+
+        if(ifCreate){
+            i = supplierMapper.subDonateSupplies(subDonSupMap);
+        }
+
+        if (i == 1) {
+            int j = supplierMapper.upDateDemLeftNum(upDateDemLeftNumMap);
+            if (j == 1) {
+                return 1;   //成功
+            } else {
+                return 3;   //更新余量失败
+            }
+        } else {
+            return 2;   //插入数据库失败
+        }
+    }
+
+    //保存捐赠物资表草稿
+    @Override
+    public int saveDraft(DonateSuppliesStatusBeen donSupStat) {
+        Map<String, Object> subDonSupMap = donSupStatToMap(donSupStat);
+        subDonSupMap.put("donateSupSta", 0);
+
+        List<DonateSuppliesStatusBeen> resultList = supplierMapper.quarryIfExistDraft(subDonSupMap.get("demandId"), subDonSupMap.get("userId"));
+
+        int i = 0;
+        boolean ifCreate = true;
+
+        for (int j = 0; j < resultList.size(); j++) {
+            if (resultList.get(j).getDonateSupSta() == 0) {
+                subDonSupMap.put("donSupStaId", resultList.get(j).getDonSupStaId());
+                i = supplierMapper.updateDonateSupplies(subDonSupMap);
+                ifCreate = false;
+            }
+        }
+
+        if(ifCreate){
+            i = supplierMapper.subDonateSupplies(subDonSupMap);
+        }
+
+        return i;
+    }
+
+    public static Map<String, Object> donSupStatToMap(DonateSuppliesStatusBeen donSupStat){
         Map<String,Object> subDonSupMap = new HashMap<String,Object>();
         subDonSupMap.put("donSupStaId",donSupStat.getDonSupStaId());
         subDonSupMap.put("donateResName",donSupStat.getDonateResName());
@@ -62,34 +131,7 @@ public class SupplierServiceImpl implements SupplierService {
         subDonSupMap.put("donaterEmail",donSupStat.getDonaterEmail());
         subDonSupMap.put("donaterNote",donSupStat.getDonaterNote());
         subDonSupMap.put("demandId",donSupStat.getDemandId());
-        subDonSupMap.put("donateSupSta",0);
-
-        int leftNum = supplierMapper.quarryLiftNum(donSupStat.getDemandId());
-
-        Map<String,Object> upDateDemLeftNumMap = new HashMap<String,Object>();
-
-        if(leftNum >=  Integer.parseInt(donSupStat.getDonateResNum())){
-            int newLeftNum = leftNum - Integer.parseInt(donSupStat.getDonateResNum());
-            upDateDemLeftNumMap.put("donateResNum",newLeftNum);
-            upDateDemLeftNumMap.put("demandId",donSupStat.getDemandId());
-        } else {
-            return 4;
-        }
-
-
-
-
-
-        int i = supplierMapper.subDonateSupplies(subDonSupMap);
-        if(i == 1){
-            int j = supplierMapper.upDateDemLeftNum(upDateDemLeftNumMap);
-            if (j == 1){
-                return 1;
-            } else {
-                return 3;
-            }
-        } else {
-            return 2;
-        }
+        subDonSupMap.put("userId",donSupStat.getUserId());
+        return subDonSupMap;
     }
 }

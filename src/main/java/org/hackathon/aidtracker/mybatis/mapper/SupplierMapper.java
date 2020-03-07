@@ -3,6 +3,7 @@ package org.hackathon.aidtracker.mybatis.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.hackathon.aidtracker.mybatis.been.DemanBeenDetail;
 import org.hackathon.aidtracker.mybatis.been.DemandBeen;
+import org.hackathon.aidtracker.mybatis.been.DonateSuppliesStatusBeen;
 
 import java.util.List;
 import java.util.Map;
@@ -32,4 +33,13 @@ public interface SupplierMapper {
 
     //请求剩余需求数量
     int quarryLiftNum(Long demandId);
+
+    //更新捐赠物资表
+    int updateDonateSupplies(Map<String, Object> subDonSupMap);
+
+    //查询是否有草稿
+    List<DonateSuppliesStatusBeen> quarryIfExistDraft(Object demandId, Object userId);
+
+
+
 }

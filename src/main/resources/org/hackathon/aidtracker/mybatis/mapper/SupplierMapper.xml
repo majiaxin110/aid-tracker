@@ -33,6 +33,27 @@
         <result column="detail_address" property="detailAddress" />
     </resultMap>
 
+    <resultMap id="donSupState" type="org.hackathon.aidtracker.mybatis.been.DonateSuppliesStatusBeen">
+        <id column="don_sup_sta_id" property="donSupStaId" />
+        <result column="demand_id" property="demandId" />
+        <result column="donate_res_city" property="donateResCity" />
+        <result column="donate_res_manufacturer" property="donateResManufacturer" />
+        <result column="donate_res_name" property="donateResName" />
+        <result column="donate_res_num" property="donateResNum" />
+        <result column="donate_res_pro" property="donateResPro" />
+        <result column="donate_res_ship_mth" property="donateResShipMth" />
+        <result column="donate_res_status" property="donateResStatus" />
+        <result column="donate_res_type" property="donateResType" />
+        <result column="donate_sup_sta" property="donateSupSta" />
+        <result column="donater_email" property="donaterEmail" />
+        <result column="donater_name" property="donaterName" />
+        <result column="donater_note" property="donaterNote" />
+        <result column="donater_phone" property="donaterPhone" />
+        <result column="donater_qq_id" property="donaterQqId" />
+        <result column="donater_wx_id" property="donaterWxId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
 
     <select id="quarryDemandtotalRows" resultType="java.lang.Integer">
         SELECT
@@ -50,25 +71,31 @@
         SELECT
             *
         FROM (
-            SELECT
-                row_number() OVER (ORDER BY T1.id ASC) AS num,
-                T1.Id AS Deman_Id,
-                T1.sys_user_id,
-                T1.title,
-                date_format(T1.create_time, '%Y-%m-%d') AS create_time,
-                T1.organization,
-                T1.location,
-                T1.status,
-                concat(IFNULL(T2.resource_name, ''), ' - ', IFNULL(T1.total_num, '')) AS TOTAL_INFO
-            FROM
-                at_demand T1
-            LEFT JOIN at_aid_detail T2 ON T1.id = T2.p_id
+                SELECT
+                    @i:=@i+1 AS num,
+                    temp.*
+                FROM (
+                    SELECT
+                        T1.Id AS Deman_Id,
+                        T1.sys_user_id,
+                        T1.title,
+                        date_format(T1.create_time, '%Y-%m-%d') AS create_time,
+                        T1.organization,
+                        T1.location,
+                        T1.status,
+                        concat(IFNULL(T2.resource_name, ''), ' - ', IFNULL(T1.total_num, '')) AS TOTAL_INFO
+                    FROM
+                        at_demand T1
+                    LEFT JOIN at_aid_detail T2 ON T1.id = T2.p_id
+                WHERE
+                    T1.status NOT IN("0")
+                ORDER BY
+                    T1.Id ASC
+            )
+            temp,(SELECT @i:=0) num
+            ) ListTable
         WHERE
-            T1.status NOT IN("0")
-            ORDER BY
-                T1.Id ASC) AS T3
-        WHERE
-            T3.num BETWEEN #{beginRow} AND #{endRow}
+            num BETWEEN #{beginRow} AND #{endRow}
     </select>
 
     <select id="quarryDemanDetail" resultMap="demandDetail">
@@ -101,9 +128,9 @@
 
     <insert id="subDonateSupplies">
         INSERT INTO at_don_sup_stat
-            (demand_id, donate_res_city, donate_res_manufacturer, donate_res_name, donate_res_num, donate_res_pro, donate_res_ship_mth, donate_res_status, donate_res_type, donater_email, donater_name, donater_note, donater_phone, donater_qq_id, donater_wx_id, donate_sup_sta)
+            (demand_id, donate_res_city, donate_res_manufacturer, donate_res_name, donate_res_num, donate_res_pro, donate_res_ship_mth, donate_res_status, donate_res_type, donater_email, donater_name, donater_note, donater_phone, donater_qq_id, donater_wx_id, donate_sup_sta, user_id)
         VALUES
-            (#{demandId}, #{donateResCity}, #{donateResManufacturer}, #{donateResName}, #{donateResNum}, #{donateResPro}, #{donateResShipMth}, #{donateResStatus}, #{donateResType}, #{donaterEmail}, #{donaterName}, #{donaterNote}, #{donaterPhone}, #{donaterQqId}, #{demandId}, #{donateSupSta});
+            (#{demandId}, #{donateResCity}, #{donateResManufacturer}, #{donateResName}, #{donateResNum}, #{donateResPro}, #{donateResShipMth}, #{donateResStatus}, #{donateResType}, #{donaterEmail}, #{donaterName}, #{donaterNote}, #{donaterPhone}, #{donaterQqId}, #{donaterWxId}, #{donateSupSta}, #{userId});
     </insert>
 
     <update id="upDateDemLeftNum">
@@ -123,6 +150,44 @@
         WHERE
             id = #{demandId}
     </select>
+
+    <select id="quarryIfExistDraft" resultMap="donSupState">
+        SELECT
+            donate_sup_sta,don_sup_sta_id
+        FROM
+            at_don_sup_stat
+        WHERE
+            demand_id = #{demandId}
+            AND user_id = #{userId}
+    </select>
+
+    <update id="updateDonateSupplies">
+        UPDATE
+            at_don_sup_stat
+        SET
+            donate_res_city = #{donateResCity},
+            donate_res_manufacturer = #{donateResManufacturer},
+            donate_res_name = #{donateResName},
+            donate_res_num = #{donateResNum},
+            donate_res_pro = #{donateResPro},
+            donate_res_ship_mth = #{donateResShipMth},
+            donate_res_status = #{donateResStatus},
+            donate_res_type = #{donateResType},
+            donater_email = #{donaterEmail},
+            donater_name = #{donaterName},
+            donater_note = #{donaterNote},
+            donater_phone = #{donaterPhone},
+            donater_qq_id = #{donaterQqId},
+            donater_wx_id = #{donaterWxId},
+            donate_sup_sta = #{donateSupSta},
+            user_id = #{userId}
+        WHERE
+            user_id = #{userId}
+        AND
+            demand_id = #{demandId}
+        AND
+            don_sup_sta_id = #{donSupStaId}
+    </update>
 
 
 

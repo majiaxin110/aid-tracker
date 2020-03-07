@@ -8,7 +8,7 @@ package org.hackathon.aidtracker.mybatis.been;
  */
 public class ReqBeen {
     private int index;          //当前页
-    private int pagSize;        //每页条数
+    private int pageSize;        //每页条数
     private String demandId;    //需求ID
 
     public int getIndex() {
@@ -19,12 +19,12 @@ public class ReqBeen {
         this.index = index;
     }
 
-    public int getPagSize() {
-        return pagSize;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setPagSize(int pagSize) {
-        this.pagSize = pagSize;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public String getDemandId() {

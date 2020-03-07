@@ -26,5 +26,6 @@ public class SysConstant {
         firstLogin,notFirstLogin
     }
 
+    public static String[] TEST_RESOURCE={"/api-donate-getDemandList","/api-donate-getDemandListDetail","/api-donate-subDonSup","/api-donate-saveDraft"};
 
 }

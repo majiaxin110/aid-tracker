@@ -30,20 +30,20 @@ public class Supplier {
     SupplierService supplierService;
 
     //获取需求列表
-    @RequestMapping("/at/getDemandList")
+    @RequestMapping("/api-donate-getDemandList")
     @ResponseBody
     public Object quarryDemandList(ReqBeen reqBeen) {
-        if(reqBeen.getIndex() == 0 && reqBeen.getPagSize() == 0){
+        if(reqBeen.getIndex() == 0 && reqBeen.getPageSize() == 0){
             return ResponseUtil.responVo(false,"页码信息请求出错，请联系管理员或请重试!",null,null,null);
         }
 
         try{
             int index = reqBeen.getIndex();
-            int pagSize = reqBeen.getPagSize();
+            int pageSize = reqBeen.getPageSize();
             int totalRows = supplierService.quarryDemandtotalRows();
-            int maxPage = totalRows / pagSize + 1;
+            int maxPage = totalRows / pageSize + 1;
 
-            List<DemandBeen> demandList = supplierService.quarryDemandList(PageHelper.pages(index,pagSize,totalRows));
+            List<DemandBeen> demandList = supplierService.quarryDemandList(PageHelper.pages(index,pageSize,totalRows));
             return ResponseUtil.responVo(true,"请求成功",demandList,"maxPage",maxPage);
         } catch (Exception e){
             return ResponseUtil.responVo(false,"请求出错，请联系管理员!",null,null,null);
@@ -52,7 +52,7 @@ public class Supplier {
 
 
     //获取需求列表详情页
-    @RequestMapping("/at/getDemandListDetail")
+    @RequestMapping("/api-donate-getDemandListDetail")
     @ResponseBody
     public Object quarryDemandListDetail(ReqBeen reqBeen){
 
@@ -71,7 +71,7 @@ public class Supplier {
     }
 
     //提交捐赠物资表
-    @RequestMapping("/at/subDonSup")
+    @RequestMapping("/api-donate-subDonSup")
     @ResponseBody
     public Object subDonateSupplies(DonateSuppliesStatusBeen donSupStat){
         List<String>  donaterInfo= new ArrayList();
@@ -105,9 +105,11 @@ public class Supplier {
         } else if (donSupStat.getDonaterName() == null) {
             return ResponseUtil.responVo(false,"请输入姓名!",null,null,null);
         } else if (donSupStat.getDemandId() == null) {
-            return ResponseUtil.responVo(false,"获取需求ID错误，请联系管理员或请重试!",null,null,null);
+            return ResponseUtil.responVo(false,"获取需求ID错误，请联系管理员或重试!",null,null,null);
         } else if (donaterInfo.size() == 4) {
             return ResponseUtil.responVo(false,"请至少选择一项联系方式输入!",null,null,null);
+        } else if (donSupStat.getUserId() == 0) {
+            return ResponseUtil.responVo(false,"获取用户ID错误，请联系管理员或重试!",null,null,null);
         }
 
 
@@ -128,6 +130,29 @@ public class Supplier {
         } catch (Exception e){
             return ResponseUtil.responVo(false,"提交出错，请联系管理员!",null,null,null);
         }
+    }
+
+    //保存捐赠物资表草稿
+    @RequestMapping("/api-donate-saveDraft")
+    @ResponseBody
+    public Object saveDraft(DonateSuppliesStatusBeen donSupStat){
+        if (donSupStat.getDemandId() == null) {
+            return ResponseUtil.responVo(false,"获取需求ID错误，请联系管理员或重试!",null,null,null);
+        } else if (donSupStat.getUserId() == 0) {
+            return ResponseUtil.responVo(false,"获取用户ID错误，请联系管理员或重试!",null,null,null);
+        }
+
+        try {
+            int i = supplierService.saveDraft(donSupStat);
+            if (i == 1){
+                return ResponseUtil.responVo(true,"保存成功!",null,null,null);
+            } else {
+                return ResponseUtil.responVo(false,"保存出错，请联系管理员!",null,null,null);
+            }
+        } catch (Exception e){
+            return ResponseUtil.responVo(false,"保存出错，请联系管理员!",null,null,null);
+        }
+
     }
 
 

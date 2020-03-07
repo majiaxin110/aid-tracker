@@ -25,4 +25,7 @@ public interface SupplierService {
 
     //提交捐赠物资表
     int subDonateSupplies(DonateSuppliesStatusBeen donateSuppliesStatusBeen);
+
+    //保存捐赠物资表草稿
+    int saveDraft(DonateSuppliesStatusBeen donSupStat);
 }

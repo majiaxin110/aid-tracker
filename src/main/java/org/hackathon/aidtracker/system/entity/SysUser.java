@@ -57,7 +57,7 @@ public class SysUser {
     }
     public static enum OrgType{
         individual(1),school(2),enterprise(3),other_with_auth(4),
-        other_without_auth(5),community(6),medical_institution(7),others(8);
+        other_without_auth(5),community(6),medical_institution(7),other_institution(8);
         private Integer val;
         OrgType(Integer val){
             this.val=val;

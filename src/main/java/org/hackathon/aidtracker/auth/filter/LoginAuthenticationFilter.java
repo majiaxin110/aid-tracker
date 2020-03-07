@@ -1,5 +1,7 @@
 package org.hackathon.aidtracker.auth.filter;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hackathon.aidtracker.auth.constant.SysConstant;
 import org.hackathon.aidtracker.auth.dto.JwtUser;
@@ -17,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -30,6 +33,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         this.authenticationManager = authenticationManager;
         super.setFilterProcessesUrl(url);
     }
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -52,13 +56,13 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        String token = JwtUtil.createToken(jwtUser.getUsername(), roles, rememberMe.get());
+        String token = JwtUtil.createToken(jwtUser.getUsername(), roles);
         response.setHeader(SysConstant.TOKEN_HEADER, token);
         response.sendRedirect(SysConstant.LOGIN_SUCCESS_PATH);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, failed.getMessage());
+
     }
 }

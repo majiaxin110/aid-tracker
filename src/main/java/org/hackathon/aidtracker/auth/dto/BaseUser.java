@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface BaseUser{
-    String getUsername();
     String getPassword();
     Collection<? extends GrantedAuthority> getAuthorities();
 

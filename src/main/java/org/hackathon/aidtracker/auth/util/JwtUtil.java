@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 public class JwtUtil {
     private static byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SysConstant.JWT_SECRET_KEY);
     private static SecretKey secretKey = Keys.hmacShaKeyFor(apiKeySecretBytes);
-    public static String createToken (String username, List<String> auth, boolean isRememberMe){
-        long expiration = isRememberMe ? SysConstant.EXPIRATION_REMEMBER : SysConstant.EXPIRATION;
+    public static String createToken (String username, List<String> auth){
+        long expiration = SysConstant.EXPIRATION_REMEMBER ;
 
         String tokenPrefix = Jwts.builder()
                 .setHeaderParam("typ", SysConstant.TOKEN_TYPE)

@@ -46,12 +46,12 @@ public class SysUser {
         }
     }
     public static enum Role {
-        supplier(1),demander(2),sys_keeper(0);
-        private Integer val;
-        Role(Integer val){
+        supplier("supplier"),demander("demander"),sys_keeper("sys_keeper");
+        private String val;
+        Role(String val){
             this.val=val;
         }
-        public Integer val() {
+        public String val() {
             return val;
         }
     }

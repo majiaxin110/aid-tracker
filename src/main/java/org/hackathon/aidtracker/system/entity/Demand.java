@@ -28,6 +28,11 @@ public class Demand {
     //受益方
     private String beneficiary;
 
+    //总数
+    private int totalNum;
+
+    //还差多少可以满足
+    private int leftNum;
     //状态
     private Status status;
 
@@ -86,6 +91,21 @@ public class Demand {
 
     public void setBeneficiary(String beneficiary) {
         this.beneficiary = beneficiary;
+    }
+    public int getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(int totalNum) {
+        this.totalNum = totalNum;
+    }
+
+    public int getLeftNum() {
+        return leftNum;
+    }
+
+    public void setLeftNum(int leftNum) {
+        this.leftNum = leftNum;
     }
 
     public Status getStatus() {

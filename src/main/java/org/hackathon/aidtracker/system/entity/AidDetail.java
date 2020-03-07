@@ -22,11 +22,7 @@ public class AidDetail {
     //物资型号/品种要求
     private String resourceSpecs;
 
-    //总数
-    private int totalNum;
 
-    //还差多少可以满足
-    private int leftNum;
 
     //收货人姓名
     private String receiverName;
@@ -82,21 +78,7 @@ public class AidDetail {
         this.resourceSpecs = resourceSpecs;
     }
 
-    public int getTotalNum() {
-        return totalNum;
-    }
 
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
-    }
-
-    public int getLeftNum() {
-        return leftNum;
-    }
-
-    public void setLeftNum(int leftNum) {
-        this.leftNum = leftNum;
-    }
 
     public String getReceiverName() {
         return receiverName;

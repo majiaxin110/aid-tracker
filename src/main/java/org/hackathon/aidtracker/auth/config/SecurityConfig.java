@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(SysConstant.REGISTER_PATH);
+        web.ignoring().antMatchers(SysConstant.TEST_RESOURCE);
     }
 
     @Override

@@ -7,40 +7,24 @@ package org.hackathon.aidtracker.mybatis.been;
  * @date 2020/3/7 7:15 下午
  */
 public class DonateSuppliesStatusBeen {
-    //捐赠物资表ID
-    private Long donSupStaId;
-    //物资种类
-    private String donateResName;
-    //物资规格
-    private String donateResType;
-    //生产厂家
-    private String donateResManufacturer;
-    //数量
-    private String donateResNum;
-    //物资状态
-    private String donateResStatus;
-    //物流方式
-    private String donateResShipMth;
-    //发货省
-    private String donateResPro;
-    //发货市
-    private String donateResCity;
-    //姓名
-    private String donaterName;
-    //微信
-    private String donaterWxId;
-    //QQ
-    private String donaterQqId;
-    //电话
-    private String donaterPhone;
-    //邮箱
-    private String donaterEmail;
-    //备注
-    private String donaterNote;
-    //捐赠需求ID
-    private Long demandId;
-    //捐赠物资表状态
-    private int donateSupSta;
+
+    private Long donSupStaId;                   //捐赠物资表ID
+    private String donateResName;               //物资种类
+    private String donateResType;               //物资规格
+    private String donateResManufacturer;       //生产厂家
+    private String donateResNum;                //数量
+    private String donateResStatus;             //物资状态
+    private String donateResShipMth;            //物流方式
+    private String donateResPro;                //发货省
+    private String donateResCity;               //发货市
+    private String donaterName;                 //姓名
+    private String donaterWxId;                 //微信
+    private String donaterQqId;                 //QQ
+    private String donaterPhone;                //电话
+    private String donaterEmail;                //邮箱
+    private String donaterNote;                 //备注
+    private Long demandId;                      //捐赠需求ID
+    private int donateSupSta;                   //捐赠物资表状态
 
     public Long getDonSupStaId() {
         return donSupStaId;

@@ -30,7 +30,6 @@ public interface SupplierMapper {
     //更新剩余数量
     int upDateDemLeftNum(Map<String, Object> upDateDemLeftNumMap);
 
-
-
-
+    //请求剩余需求数量
+    int quarryLiftNum(Long demandId);
 }

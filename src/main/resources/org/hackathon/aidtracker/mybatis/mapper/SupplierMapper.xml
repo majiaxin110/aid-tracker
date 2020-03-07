@@ -110,10 +110,19 @@
         UPDATE
             at_demand
         SET
-            left_num = left_num - #{donateResNum}
+            left_num = #{donateResNum}
         WHERE
             id = #{demandId}
     </update>
+
+    <select id="quarryLiftNum" resultType="java.lang.Integer">
+        SELECT
+            left_num
+        FROM
+            at_demand
+        WHERE
+            id = #{demandId}
+    </select>
 
 
 

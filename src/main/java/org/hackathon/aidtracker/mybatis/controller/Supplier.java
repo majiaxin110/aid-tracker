@@ -120,6 +120,8 @@ public class Supplier {
                 return ResponseUtil.responVo(false,"提交出错，请联系管理员!",null,null,null);
             } else if(i == 3){
                 return ResponseUtil.responVo(false,"更新剩余数量错误，请联系管理员!",null,null,null);
+            } else if(i == 4){
+                return ResponseUtil.responVo(false,"捐赠数量超过可捐赠数量，请修改物资数量!",null,null,null);
             } else {
                 return ResponseUtil.responVo(false,"提交出错，请联系管理员!",null,null,null);
             }

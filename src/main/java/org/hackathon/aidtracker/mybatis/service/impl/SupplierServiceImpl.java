@@ -64,9 +64,21 @@ public class SupplierServiceImpl implements SupplierService {
         subDonSupMap.put("demandId",donSupStat.getDemandId());
         subDonSupMap.put("donateSupSta",0);
 
+        int leftNum = supplierMapper.quarryLiftNum(donSupStat.getDemandId());
+
         Map<String,Object> upDateDemLeftNumMap = new HashMap<String,Object>();
-        upDateDemLeftNumMap.put("donateResNum",Integer.parseInt(donSupStat.getDonateResNum()));
-        upDateDemLeftNumMap.put("demandId",donSupStat.getDemandId());
+
+        if(leftNum >=  Integer.parseInt(donSupStat.getDonateResNum())){
+            int newLeftNum = leftNum - Integer.parseInt(donSupStat.getDonateResNum());
+            upDateDemLeftNumMap.put("donateResNum",newLeftNum);
+            upDateDemLeftNumMap.put("demandId",donSupStat.getDemandId());
+        } else {
+            return 4;
+        }
+
+
+
+
 
         int i = supplierMapper.subDonateSupplies(subDonSupMap);
         if(i == 1){

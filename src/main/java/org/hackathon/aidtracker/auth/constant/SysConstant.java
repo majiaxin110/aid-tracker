@@ -5,8 +5,8 @@ public class SysConstant {
     public static final String AUTH_PATH="/api-user-auth";
 
     public static final String LOGIN_SUCCESS_PATH="/supervision";
-    public static final String TOKEN_HEADER = "access_token";
-    public static final String BASE_TOKEN_HEADER="base_token";
+    public static final String TOKEN_HEADER = "accessToken";
+    public static final String BASE_TOKEN_HEADER="baseToken";
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String TOKEN_CLAIMS = "Permission";
     public static final String TOKEN_TYPE = "JWT";

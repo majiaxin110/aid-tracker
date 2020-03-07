@@ -33,8 +33,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationProviderImpl.class);
     @Autowired
-    public AuthenticationProviderImpl(UserDetailsService userDetailsService,
-                                      BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthenticationProviderImpl(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -45,8 +44,8 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         if(!StringUtils.isEmpty(openId)){
             UserDetails details = userDetailsService.loadUserByUsername(openId);
             if(Objects.isNull(details)){
-                //first login ; go register
-                throw new UsernameNotFoundException("first login");
+                // go register
+                throw new UsernameNotFoundException("login first");
             }else{
                 return new UsernamePasswordAuthenticationToken(openId, SysConstant.phantomPass, details.getAuthorities());
             }

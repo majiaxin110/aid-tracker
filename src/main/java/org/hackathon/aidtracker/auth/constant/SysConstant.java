@@ -15,7 +15,7 @@ public class SysConstant {
 
 
     public static final String AppId="wx2794378e18ee1fb5";
-    public static final String AppSecret="";
+    public static final String AppSecret="8fb4ae14d80d2d76c44696ebadb2c971";
     public static final String wxAppIdKey="APPID";
     public static final String wxSecKeyKey="SECRET";
     public static final String wxJSCodeKey="JSCODE";

@@ -23,6 +23,7 @@ public class Supply {
     //物资规格
     private String supplySpecs;
 
+    //生产厂家
     private String manufacturer;
 
     //数量
@@ -36,10 +37,13 @@ public class Supply {
     //物流方式
     private Way2Pickup pickupWay;
 
+    //发货省
     private String departureProvince;
 
+    //发货市
     private String departureCity;
 
+    //详细地址
     private String detailAddress;
 
     //发货人
@@ -53,10 +57,12 @@ public class Supply {
 
     private String email;
 
+    //备注
     private String memo;
 
     private Status status;
 
+    //创建时间
     private Date createTime;
 
     @JsonIgnore
@@ -64,13 +70,15 @@ public class Supply {
     @JoinColumn(name = "demand_id")
     private Demand demand;
 
-    //草稿|对接中|准备发货|运输中|完成
+    //草稿|对接中|准备发货|运输中|完成|拒绝
     public static enum Status{
-        uncheck,connecting,ready2Send,transporting,complete,refused
+        unchecked,connecting,ready2Send,transporting,complete,refused
     }
+    //现货|物资筹集中
     public static enum StateBeforeSend{
         inStock,waiting;
     }
+    //送货上门|自取
     public static enum Way2Pickup{
         delivery,selfTaking
     }

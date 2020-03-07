@@ -13,16 +13,22 @@ public class Demand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //标题
     private String title;
 
+    //创建时间
     private Date createTime;
 
+    //组织名称
     private String organization;
 
+    //地址
     private String location;
 
+    //受益方
     private String beneficiary;
 
+    //状态
     private Status status;
 
     @JsonIgnore
@@ -31,7 +37,7 @@ public class Demand {
     private SysUser requester;
 
     public static enum Status{
-        OPEN,CLOSED
+        open,closed
     }
 
     public Long getId() {

@@ -22,24 +22,32 @@ public class AidDetail {
     //物资型号/品种要求
     private String resourceSpecs;
 
+    //总数
     private int totalNum;
 
+    //还差多少可以满足
     private int leftNum;
 
+    //收货人姓名
     private String receiverName;
 
+    //联系电话
     private String phoneNum;
 
+    //wx
     private String wxAccount;
 
     private String qqAccount;
 
     private String email;
 
+    //收货人省
     private String receiverProvince;
 
+    //市
     private String receiverCity;
 
+    //详细地址
     private String detailAddress;
 
     public Demand getDemand() {

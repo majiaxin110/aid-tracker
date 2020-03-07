@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class SysUser {
     @Id
     private String openId;
-    private String wxNickName;
+    private String nickName;
     private Gender gender;
     private Role role;
     private String avatarUrl;
@@ -29,7 +29,14 @@ public class SysUser {
         }
     }
     public static enum Role {
-        supplier,demander,sys_keeper
+        supplier(1),demander(2),sys_keeper(0);
+        private Integer val;
+        Role(Integer val){
+            this.val=val;
+        }
+        public Integer val() {
+            return val;
+        }
     }
     public static enum OrgType{
         individual(1),school(2),enterprise(3),other_with_auth(4),
@@ -51,12 +58,12 @@ public class SysUser {
         this.openId = openId;
     }
 
-    public String getWxNickName() {
-        return wxNickName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setWxNickName(String wxNickName) {
-        this.wxNickName = wxNickName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public Gender getGender() {

@@ -19,21 +19,19 @@ public class WechatUtil {
 
     public static String getOpenId(String authCode){
 
-////        return "1213123123";
-//        WxAuthRes authRes;
-//        String url = WxUrl.JS_CODE_2_SESSION.get()
-//                .replace(SysConstant.wxAppIdKey, SysConstant.AppId)
-//                .replace(SysConstant.wxSecKeyKey, SysConstant.AppSecret)
-//                .replace(SysConstant.wxJSCodeKey, authCode);
-//
-//
-//        String str = restTemplate.getForObject(url, String.class);
-//        JSONObject obj = JSONUtil.parseObj(str);
-//        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
-//        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
-//            return obj.getStr("openid");
-//        }
+        String url = WxUrl.JS_CODE_2_SESSION.get()
+                .replace(SysConstant.wxAppIdKey, SysConstant.AppId)
+                .replace(SysConstant.wxSecKeyKey, SysConstant.AppSecret)
+                .replace(SysConstant.wxJSCodeKey, authCode);
 
+
+        String str = restTemplate.getForObject(url, String.class);
+        JSONObject obj = JSONUtil.parseObj(str);
+        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
+        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
+            return obj.getStr("openid");
+        }
+        return null;
 //        ResponseEntity<WxAuthRes> resObj = null;
 //        try {
 //            resObj = restTemplate.getForEntity(url, WxAuthRes.class);
@@ -58,6 +56,6 @@ public class WechatUtil {
 //        }else{
 //            logger.error("network connection to wechat server failed: "+resObj.getStatusCodeValue());
 //        }
-        return "1233111111";
+//        return "1233111111";
     }
 }

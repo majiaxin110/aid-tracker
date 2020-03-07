@@ -85,7 +85,7 @@ public class WechatAuthenticationFilter extends AbstractAuthenticationProcessing
             String nickName = userInfo.getStr("nickName");
             String avatarUrl = userInfo.getStr("avatarUrl");
             String openId = WechatUtil.getOpenId(authCode);
-            if(!StringUtils.isEmpty(authCode)){
+            if(!StringUtils.isEmpty(openId)){
                 SysUser byOpenId = sysUserRepo.findByOpenId(openId);
                 UsernamePasswordAuthenticationToken authToken;
                 if(Objects.nonNull(byOpenId)){
@@ -106,7 +106,7 @@ public class WechatAuthenticationFilter extends AbstractAuthenticationProcessing
                 }
                 return authenticationManager.authenticate(authToken);
             }else {
-                logger.error("empty auth code!");
+                logger.error("invalid auth code!");
             }
         } catch (IOException e) {
             e.printStackTrace();

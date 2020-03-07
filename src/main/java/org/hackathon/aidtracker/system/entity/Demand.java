@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name = "at_demand")
@@ -23,14 +23,14 @@ public class Demand {
 
     private String beneficiary;
 
-    private STATUS status;
+    private Status status;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sys_user_id")
     private SysUser requester;
 
-    public static enum STATUS{
+    public static enum Status{
         OPEN,CLOSED
     }
 
@@ -82,11 +82,11 @@ public class Demand {
         this.beneficiary = beneficiary;
     }
 
-    public STATUS getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(STATUS status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

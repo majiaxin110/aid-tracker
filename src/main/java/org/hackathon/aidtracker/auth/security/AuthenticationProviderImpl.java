@@ -29,25 +29,21 @@ import java.util.Objects;
 @Component(value = "authenticationProvider")
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-    private final UserDetailsService userDetailsService;
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationProviderImpl.class);
-    @Autowired
-    public AuthenticationProviderImpl(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String authCode = authentication.getName();
-        String openId = WechatUtil.getOpenId(authCode);
-        if(!StringUtils.isEmpty(openId)){
-            UserDetails details = userDetailsService.loadUserByUsername(openId);
-            if(Objects.isNull(details)){
-                // go register
-                throw new UsernameNotFoundException("login first");
-            }else{
-                return new UsernamePasswordAuthenticationToken(openId, SysConstant.phantomPass, details.getAuthorities());
+        String openId = authentication.getName();
+        String[] split = authentication.getCredentials().toString().split("_");
+        SysConstant.LoginType loginType = SysConstant.LoginType.valueOf(split[0]);
+        String roleFlg =split.length>1? split[1]:"";
+        if(SysConstant.LoginType.firstLogin.equals(loginType)){
+            throw new UsernameNotFoundException(openId);
+        }else{
+            if("withRole".equals(roleFlg)){
+                return new UsernamePasswordAuthenticationToken(openId, loginType.name(), null);
+            }else if("withoutRole".equals(roleFlg)){
+                throw new UsernameNotFoundException(openId);
             }
         }
         return null;

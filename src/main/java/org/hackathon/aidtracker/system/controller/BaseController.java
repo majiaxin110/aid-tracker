@@ -24,8 +24,9 @@ public class BaseController {
     }
 
     @PostMapping(SysConstant.REGISTER_PATH)
-    public SysUser register(HttpServletRequest request, @RequestBody JSONObject jsonObject, HttpServletResponse response){
-        SysUser sysUser = sysUserService.register(request.getHeader(SysConstant.BASE_TOKEN_HEADER), jsonObject);
+    public SysUser fill(HttpServletRequest request, @RequestBody SysUser sysUser, HttpServletResponse response){
+        if(Objects.isNull(sysUser)||Objects.isNull(sysUser.getId()))return null;
+        sysUser = sysUserService.fill(request.getHeader(SysConstant.BASE_TOKEN_HEADER), sysUser);
         if(Objects.nonNull(sysUser)){
             List<String> role=new ArrayList<>();
             role.add(sysUser.getRole().val());

@@ -1,5 +1,6 @@
 package org.hackathon.aidtracker.auth.util;
 
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import org.hackathon.aidtracker.auth.constant.SysConstant;
@@ -13,25 +14,26 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
 
 public class WechatUtil {
-    private static RestTemplate restTemplate;
+    private static RestTemplate restTemplate=new RestTemplateBuilder().build();
     private static Logger logger = LoggerFactory.getLogger(WechatUtil.class);
-    public WechatUtil(){
-        restTemplate=new RestTemplateBuilder().build();
-    }
+
     public static String getOpenId(String authCode){
 
-        WxAuthRes authRes;
-        String url = WxUrl.JS_CODE_2_SESSION.get()
-                .replace(SysConstant.wxAppIdKey, SysConstant.AppId)
-                .replace(SysConstant.wxSecKeyKey, SysConstant.AppSecret)
-                .replace(SysConstant.wxJSCodeKey, authCode);
+////        return "1213123123";
+//        WxAuthRes authRes;
+//        String url = WxUrl.JS_CODE_2_SESSION.get()
+//                .replace(SysConstant.wxAppIdKey, SysConstant.AppId)
+//                .replace(SysConstant.wxSecKeyKey, SysConstant.AppSecret)
+//                .replace(SysConstant.wxJSCodeKey, authCode);
+//
+//
+//        String str = restTemplate.getForObject(url, String.class);
+//        JSONObject obj = JSONUtil.parseObj(str);
+//        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
+//        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
+//            return obj.getStr("openid");
+//        }
 
-
-        JSONObject obj = restTemplate.getForObject(url, JSONObject.class);
-        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
-        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
-            return obj.getStr("openid");
-        }
 //        ResponseEntity<WxAuthRes> resObj = null;
 //        try {
 //            resObj = restTemplate.getForEntity(url, WxAuthRes.class);
@@ -56,6 +58,6 @@ public class WechatUtil {
 //        }else{
 //            logger.error("network connection to wechat server failed: "+resObj.getStatusCodeValue());
 //        }
-        return null;
+        return "1233111111";
     }
 }

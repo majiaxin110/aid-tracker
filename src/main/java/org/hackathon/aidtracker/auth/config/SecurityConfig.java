@@ -5,6 +5,7 @@ import org.hackathon.aidtracker.auth.exception.JwtAccessDeniedHandler;
 import org.hackathon.aidtracker.auth.exception.JwtAuthenticationEntryPoint;
 import org.hackathon.aidtracker.auth.filter.JwtAuthenticationFilter;
 import org.hackathon.aidtracker.auth.filter.WechatAuthenticationFilter;
+import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 @Configuration
@@ -23,10 +25,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProvider authenticationProvider;
-
+    private SysUserRepo sysUserRepo;
     @Autowired
-    public SecurityConfig(AuthenticationProvider authenticationProvider) {
+    public SecurityConfig(AuthenticationProvider authenticationProvider,SysUserRepo sysUserRepo) {
         this.authenticationProvider=authenticationProvider;
+        this.sysUserRepo = sysUserRepo;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new WechatAuthenticationFilter(SysConstant.AUTH_PATH,authenticationManager()),JwtAuthenticationFilter.class)
+                .addFilterAfter(new WechatAuthenticationFilter(SysConstant.AUTH_PATH,authenticationManager(),sysUserRepo),JwtAuthenticationFilter.class)
 //                .addFilter(new LoginAuthenticationFilter(SysConstant.AUTH_PATH, authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

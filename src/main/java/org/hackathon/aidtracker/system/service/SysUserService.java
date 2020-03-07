@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class SysUserService {
@@ -25,10 +26,7 @@ public class SysUserService {
     public SysUserService(SysUserRepo sysUserRepo){
         this.sysUserRepo=sysUserRepo;
     }
-    public SysUser getSysUser(String openId){
-        return sysUserRepo.getOne(openId);
-    }
-    public SysUser register(String baseToken,JSONObject jsonObject){
+    public SysUser fill(String baseToken,SysUser sysUser){
         try {
             String decode = Encrypt.ins().decode(baseToken);
             long before = new Date(Long.parseLong(decode)).getTime();
@@ -42,10 +40,14 @@ public class SysUserService {
             e.printStackTrace();
             return null;
         }
-        String authCode = jsonObject.getStr("authCode");
-        String openId = WechatUtil.getOpenId(authCode);
-        SysUser sysUser = jsonObject.getBean("userInfo", SysUser.class);
-        sysUser.setOpenId(openId);
-       return sysUserRepo.save(sysUser);
+        Optional<SysUser> byId = sysUserRepo.findById(sysUser.getId());
+        if(byId.isPresent()){
+            SysUser user = byId.get();
+            sysUser.setNickName(user.getNickName());
+            sysUser.setAvatarUrl(user.getAvatarUrl());
+            sysUser.setOpenId(user.getOpenId());
+            return sysUserRepo.save(sysUser);
+        }
+        return null;
     }
 }

@@ -21,8 +21,10 @@ public class SysConstant {
     public static final String wxJSCodeKey="JSCODE";
     public static final String WX_AUTH_PARAM_KEY="authCode";
     public static final String phantomPass="fake";
-    public static final String REGISTER_PATH="/api-user-register";
-
+    public static final String REGISTER_PATH="/api-user-fill";
+    public  enum LoginType{
+        firstLogin,notFirstLogin
+    }
 
 
 }

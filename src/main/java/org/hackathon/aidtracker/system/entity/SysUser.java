@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "at_sys_user")
 public class SysUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String openId;
     private String nickName;
     private Gender gender;
@@ -18,6 +20,15 @@ public class SysUser {
     private OrgType orgType;
     private String supplierLocation;    //捐赠方所在地
     private String demanderDefaultAddress;    //接收方默认收货地址
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSupplierLocation() {
         return supplierLocation;
@@ -36,7 +47,7 @@ public class SysUser {
     }
 
     public static enum Gender{
-        male(1),female(2),unknown(0);
+        unknown(0), male(1),female(2);
         private Integer val;
         Gender(Integer val){
             this.val=val;

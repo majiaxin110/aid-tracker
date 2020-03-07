@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hackathon.aidtracker.mybatis.mapper.SupplierMapper">
+    <resultMap id="demandList" type="org.hackathon.aidtracker.mybatis.been.DemandBeen">
+        <id column="Deman_Id" property="demanId" />
+        <result column="sys_user_id" property="sysUserId" />
+        <result column="title" property="title" />
+        <result column="create_time" property="createTime" />
+        <result column="organization" property="organization" />
+        <result column="location" property="location" />
+        <result column="TOTAL_INFO" property="totalInfo" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <resultMap id="demandDetail" type="org.hackathon.aidtracker.mybatis.been.DemanBeenDetail">
+        <id column="Deman_Id" property="demanId" />
+        <result column="title" property="title" />
+        <result column="org_type" property="orgType" />
+        <result column="create_time" property="createTime" />
+        <result column="organization" property="organization" />
+        <result column="location" property="location" />
+        <result column="beneficiary" property="beneficiary" />
+        <result column="status" property="status" />
+        <result column="resource_name" property="resourceName" />
+        <result column="resource_specs" property="resourceSpecs" />
+        <result column="total_num" property="totalNum" />
+        <result column="left_num" property="leftNum" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="phone_num" property="phoneNum" />
+        <result column="wx_account" property="wxAccount" />
+        <result column="qq_account" property="qqAccount" />
+        <result column="email" property="email" />
+        <result column="detail_address" property="detailAddress" />
+    </resultMap>
+
+
+    <select id="quarryDemandtotalRows" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM (
+            SELECT
+                status
+            FROM
+                at_demand
+            WHERE
+                status NOT IN("0")) AS T1
+    </select>
+
+    <select id="quarryDemandList" resultMap="demandList">
+        SELECT
+            *
+        FROM (
+            SELECT
+                row_number() OVER (ORDER BY T1.id ASC) AS num,
+                T1.Id AS Deman_Id,
+                T1.sys_user_id,
+                T1.title,
+                date_format(T1.create_time, '%Y-%m-%d') AS create_time,
+                T1.organization,
+                T1.location,
+                T1.status,
+                concat(IFNULL(T2.resource_name, ''), ' - ', IFNULL(T1.total_num, '')) AS TOTAL_INFO
+            FROM
+                at_demand T1
+            LEFT JOIN at_aid_detail T2 ON T1.id = T2.p_id
+        WHERE
+            T1.status NOT IN("0")
+            ORDER BY
+                T1.Id ASC) AS T3
+        WHERE
+            T3.num BETWEEN #{beginRow} AND #{endRow}
+    </select>
+
+    <select id="quarryDemanDetail" resultMap="demandDetail">
+        SELECT
+            T1.id AS Deman_Id,
+            T1.title,
+            T3.org_type,
+            T1.create_time,
+            T1.organization,
+            T1.location,
+            T1.beneficiary,
+            T1.status,
+            T2.resource_name,
+            T2.resource_specs,
+            T1.total_num,
+            T1.left_num,
+            T2.receiver_name,
+            T2.phone_num,
+            T2.wx_account,
+            T2.qq_account,
+            T2.email,
+            T2.detail_address
+        FROM
+            at_demand T1
+            LEFT JOIN at_aid_detail T2 ON T1.id = T2.p_id
+            LEFT JOIN at_sys_user T3 ON T1.sys_user_id = T3.open_id
+        WHERE
+            T1.id = #{demandId}
+    </select>
+
+    <insert id="subDonateSupplies">
+        INSERT INTO at_don_sup_stat
+            (demand_id, donate_res_city, donate_res_manufacturer, donate_res_name, donate_res_num, donate_res_pro, donate_res_ship_mth, donate_res_status, donate_res_type, donater_email, donater_name, donater_note, donater_phone, donater_qq_id, donater_wx_id, donate_sup_sta)
+        VALUES
+            (#{demandId}, #{donateResCity}, #{donateResManufacturer}, #{donateResName}, #{donateResNum}, #{donateResPro}, #{donateResShipMth}, #{donateResStatus}, #{donateResType}, #{donaterEmail}, #{donaterName}, #{donaterNote}, #{donaterPhone}, #{donaterQqId}, #{demandId}, #{donateSupSta});
+    </insert>
+
+    <update id="upDateDemLeftNum">
+        UPDATE
+            at_demand
+        SET
+            left_num = left_num - #{donateResNum}
+        WHERE
+            id = #{demandId}
+    </update>
+
+
+
+
+
+</mapper>

@@ -34,3 +34,5 @@ spring:
     enabled: true
     suffix: .html
     mode: HTML
+mybatis:
+  mapper-locations: classpath:org/hackathon/aidtracker/mybatis/mapper/*.xml

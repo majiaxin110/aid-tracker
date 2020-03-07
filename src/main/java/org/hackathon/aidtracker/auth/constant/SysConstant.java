@@ -23,6 +23,6 @@ public class SysConstant {
     public static final String phantomPass="fake";
     public static final String REGISTER_PATH="/api-user-register";
 
-
+    public static String[] TEST_RESOURCE={"/at/getDemandList","/at/getDemandListDetail","/at/subDonSup"};
 
 }

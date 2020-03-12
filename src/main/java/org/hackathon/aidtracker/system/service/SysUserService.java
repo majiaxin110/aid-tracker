@@ -1,18 +1,13 @@
 package org.hackathon.aidtracker.system.service;
 
-import cn.hutool.json.JSONObject;
-import org.hackathon.aidtracker.auth.util.Encrypt;
-import org.hackathon.aidtracker.auth.util.WechatUtil;
-import org.hackathon.aidtracker.system.controller.BaseController;
+import org.hackathon.aidtracker.util.Encrypt;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.hackathon.aidtracker.system.entity.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 

@@ -1,13 +1,12 @@
 package org.hackathon.aidtracker.auth.dto;
 
-import org.hackathon.aidtracker.auth.constant.SysConstant;
+import org.hackathon.aidtracker.constant.SysConst;
 import org.hackathon.aidtracker.system.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class JwtUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return SysConstant.phantomPass;
+        return SysConst.phantomPass;
     }
 
     @Override

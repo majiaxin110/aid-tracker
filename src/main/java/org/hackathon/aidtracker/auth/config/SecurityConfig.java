@@ -1,10 +1,10 @@
 package org.hackathon.aidtracker.auth.config;
 
-import org.hackathon.aidtracker.auth.constant.SysConstant;
+import org.hackathon.aidtracker.constant.SysConst;
 import org.hackathon.aidtracker.auth.exception.JwtAccessDeniedHandler;
 import org.hackathon.aidtracker.auth.exception.JwtAuthenticationEntryPoint;
 import org.hackathon.aidtracker.auth.filter.JwtAuthenticationFilter;
-import org.hackathon.aidtracker.auth.filter.WechatAuthenticationFilter;
+import org.hackathon.aidtracker.auth.filter.WeChatAuthenticationFilter;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 @Configuration
@@ -39,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(SysConstant.REGISTER_PATH);
-        web.ignoring().antMatchers(SysConstant.TEST_RESOURCE);
+        web.ignoring().antMatchers(SysConst.REGISTER_PATH);
+        web.ignoring().antMatchers(SysConst.TEST_RESOURCE);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new WechatAuthenticationFilter(SysConstant.AUTH_PATH,authenticationManager(),sysUserRepo),JwtAuthenticationFilter.class)
+                .addFilterAfter(new WeChatAuthenticationFilter(SysConst.AUTH_PATH,authenticationManager(),sysUserRepo),JwtAuthenticationFilter.class)
 //                .addFilter(new LoginAuthenticationFilter(SysConstant.AUTH_PATH, authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

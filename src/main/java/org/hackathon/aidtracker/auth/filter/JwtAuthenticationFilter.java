@@ -3,8 +3,8 @@ package org.hackathon.aidtracker.auth.filter;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
-import org.hackathon.aidtracker.auth.constant.SysConstant;
-import org.hackathon.aidtracker.auth.util.JwtUtil;
+import org.hackathon.aidtracker.constant.SysConst;
+import org.hackathon.aidtracker.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,8 +29,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String authorization = request.getHeader(SysConstant.TOKEN_HEADER);
-        if (Objects.isNull(authorization) || !authorization.startsWith(SysConstant.TOKEN_PREFIX)) {
+        String authorization = request.getHeader(SysConst.TOKEN_HEADER);
+        if (Objects.isNull(authorization) || !authorization.startsWith(SysConst.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         super.doFilterInternal(request, response, chain);
     }
     private UsernamePasswordAuthenticationToken getAuthentication(String authorization) {
-        String token = authorization.replace(SysConstant.TOKEN_PREFIX, "");
+        String token = authorization.replace(SysConst.TOKEN_PREFIX, "");
         try {
             String username = JwtUtil.getUsernameByToken(token);
             List<SimpleGrantedAuthority> userRolesByToken = JwtUtil.getUserRolesByToken(token);

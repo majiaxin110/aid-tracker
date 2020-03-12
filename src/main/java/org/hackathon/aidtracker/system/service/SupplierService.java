@@ -2,15 +2,11 @@ package org.hackathon.aidtracker.system.service;
 
 import org.hackathon.aidtracker.system.dao.*;
 import org.hackathon.aidtracker.system.dto.DemandWithDetail;
-import org.hackathon.aidtracker.system.entity.AidDetail;
 import org.hackathon.aidtracker.system.entity.Demand;
-import org.hackathon.aidtracker.system.entity.Logistics;
-import org.hackathon.aidtracker.system.util.PageHelper;
+import org.hackathon.aidtracker.util.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SupplierService {

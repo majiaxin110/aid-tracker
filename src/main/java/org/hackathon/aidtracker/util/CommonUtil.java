@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.system.util;
+package org.hackathon.aidtracker.util;
 
 import cn.hutool.json.*;
 

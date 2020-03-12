@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.util;
+package org.hackathon.aidtracker.util;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;

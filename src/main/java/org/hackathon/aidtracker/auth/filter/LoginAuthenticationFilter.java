@@ -1,12 +1,10 @@
 package org.hackathon.aidtracker.auth.filter;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hackathon.aidtracker.auth.constant.SysConstant;
+import org.hackathon.aidtracker.constant.SysConst;
 import org.hackathon.aidtracker.auth.dto.JwtUser;
 import org.hackathon.aidtracker.auth.dto.LoginUser;
-import org.hackathon.aidtracker.auth.util.JwtUtil;
+import org.hackathon.aidtracker.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -57,8 +54,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         String token = JwtUtil.createToken(jwtUser.getUsername(), roles);
-        response.setHeader(SysConstant.TOKEN_HEADER, token);
-        response.sendRedirect(SysConstant.LOGIN_SUCCESS_PATH);
+        response.setHeader(SysConst.TOKEN_HEADER, token);
+        response.sendRedirect(SysConst.LOGIN_SUCCESS_PATH);
     }
 
     @Override

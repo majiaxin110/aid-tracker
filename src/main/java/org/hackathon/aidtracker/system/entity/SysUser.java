@@ -1,10 +1,14 @@
 package org.hackathon.aidtracker.system.entity;
 
+import org.hackathon.aidtracker.auth.dto.BaseUser;
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "at_sys_user")
-public class SysUser {
+public class SysUser implements BaseUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,6 +48,16 @@ public class SysUser {
 
     public void setDemanderDefaultAddress(String demanderDefaultAddress) {
         this.demanderDefaultAddress = demanderDefaultAddress;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public static enum Gender{

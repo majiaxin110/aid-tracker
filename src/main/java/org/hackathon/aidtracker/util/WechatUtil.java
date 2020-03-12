@@ -1,11 +1,9 @@
-package org.hackathon.aidtracker.auth.util;
+package org.hackathon.aidtracker.util;
 
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import org.hackathon.aidtracker.auth.constant.SysConstant;
-import org.hackathon.aidtracker.auth.constant.WxUrl;
-import org.hackathon.aidtracker.auth.dto.WxAuthRes;
+import org.hackathon.aidtracker.constant.SysConst;
+import org.hackathon.aidtracker.constant.WeChatUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -19,10 +17,10 @@ public class WechatUtil {
 
     public static String getOpenId(String authCode){
 
-        String url = WxUrl.JS_CODE_2_SESSION.get()
-                .replace(SysConstant.wxAppIdKey, SysConstant.AppId)
-                .replace(SysConstant.wxSecKeyKey, SysConstant.AppSecret)
-                .replace(SysConstant.wxJSCodeKey, authCode);
+        String url = WeChatUrl.JS_CODE_2_SESSION.get()
+                .replace(SysConst.wxAppIdKey, SysConst.AppId)
+                .replace(SysConst.wxSecKeyKey, SysConst.AppSecret)
+                .replace(SysConst.wxJSCodeKey, authCode);
 
 
         String str = restTemplate.getForObject(url, String.class);

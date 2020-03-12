@@ -1,6 +1,6 @@
-package org.hackathon.aidtracker.auth.constant;
+package org.hackathon.aidtracker.constant;
 
-public class SysConstant {
+public class SysConst {
 
     public static final String AUTH_PATH="/api-user-auth";
 

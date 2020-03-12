@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.util;
+package org.hackathon.aidtracker.util;
 
 import org.hackathon.aidtracker.auth.config.AppContextAccessor;
 import org.springframework.context.ApplicationContext;

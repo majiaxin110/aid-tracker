@@ -1,31 +1,26 @@
 package org.hackathon.aidtracker.auth.filter;
 
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hackathon.aidtracker.auth.constant.SysConstant;
-import org.hackathon.aidtracker.auth.constant.WxUrl;
-import org.hackathon.aidtracker.auth.dto.JwtUser;
-import org.hackathon.aidtracker.auth.dto.WxAuthRes;
-import org.hackathon.aidtracker.auth.util.Encrypt;
-import org.hackathon.aidtracker.auth.util.JwtUtil;
-import org.hackathon.aidtracker.auth.util.WechatUtil;
+import org.hackathon.aidtracker.auth.dto.BaseUser;
+import org.hackathon.aidtracker.auth.exception.WeChatAuthenticationException;
+import org.hackathon.aidtracker.auth.security.WeChatAuthenticationToken;
+import org.hackathon.aidtracker.constant.SysConst;
+import org.hackathon.aidtracker.util.Encrypt;
+import org.hackathon.aidtracker.util.JwtUtil;
+import org.hackathon.aidtracker.util.WechatUtil;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.hackathon.aidtracker.system.entity.SysUser;
-import org.hackathon.aidtracker.system.util.CommonUtil;
+import org.hackathon.aidtracker.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
@@ -44,18 +39,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class WechatAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class WeChatAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private Logger logger = LoggerFactory.getLogger(WechatAuthenticationFilter.class);
+    private Logger logger = LoggerFactory.getLogger(WeChatAuthenticationFilter.class);
     private AuthenticationManager authenticationManager;
     private SysUserRepo sysUserRepo;
 
 
-    public WechatAuthenticationFilter(String url, AuthenticationManager authenticationManager, SysUserRepo sysUserRepo) {
+    public WeChatAuthenticationFilter(String url, AuthenticationManager authenticationManager, SysUserRepo sysUserRepo) {
         super(new AntPathRequestMatcher(url, "POST"));
         setAuthenticationManager(authenticationManager);
-        this.authenticationManager=authenticationManager;
-        this.sysUserRepo=sysUserRepo;
+        this.authenticationManager = authenticationManager;
+        this.sysUserRepo = sysUserRepo;
     }
 
     //登录流程
@@ -80,62 +75,65 @@ public class WechatAuthenticationFilter extends AbstractAuthenticationProcessing
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JSONObject json = objectMapper.readValue(request.getInputStream(), JSONObject.class);
-            String authCode = json.getStr(SysConstant.WX_AUTH_PARAM_KEY);
+            String authCode = json.getStr(SysConst.WX_AUTH_PARAM_KEY);
             JSONObject userInfo = json.getJSONObject("userInfo");
             String nickName = userInfo.getStr("nickName");
             String avatarUrl = userInfo.getStr("avatarUrl");
             String openId = WechatUtil.getOpenId(authCode);
-            if(!StringUtils.isEmpty(openId)){
-                SysUser byOpenId = sysUserRepo.findByOpenId(openId);
-                UsernamePasswordAuthenticationToken authToken;
-                if(Objects.nonNull(byOpenId)){
-                    //update sysUser
-                    byOpenId.setNickName(nickName);
-                    byOpenId.setAvatarUrl(avatarUrl);
-                    sysUserRepo.save(byOpenId);
-                    String roleFlg=Objects.isNull(byOpenId.getRole())?"withoutRole": "withRole";
-                    authToken = new UsernamePasswordAuthenticationToken(openId, SysConstant.LoginType.notFirstLogin.name()+"_"+roleFlg);
-                }else{
-                    //create sysUser
-                    SysUser sysUser = new SysUser();
-                    sysUser.setOpenId(openId);
-                    sysUser.setNickName(nickName);
-                    sysUser.setAvatarUrl(avatarUrl);
-                    sysUserRepo.save(sysUser);
-                    authToken = new UsernamePasswordAuthenticationToken(openId, SysConstant.LoginType.firstLogin.name()+"_");
-                }
-                return authenticationManager.authenticate(authToken);
-            }else {
+            if (StringUtils.isEmpty(openId)) {
                 logger.error("invalid auth code!");
+                throw new WeChatAuthenticationException("asas");
             }
+
+            SysUser byOpenId = sysUserRepo.findByOpenId(openId);
+            WeChatAuthenticationToken authToken;
+            if (Objects.nonNull(byOpenId)) {
+                // not first login update sysUser
+                byOpenId.setNickName(nickName);
+                byOpenId.setAvatarUrl(avatarUrl);
+                sysUserRepo.save(byOpenId);
+                String roleFlg = Objects.isNull(byOpenId.getRole()) ? "withoutRole" : "withRole";
+                authToken = new WeChatAuthenticationToken(openId, byOpenId, false);
+            } else {
+                //first login create sysUser
+                SysUser sysUser = new SysUser();
+                sysUser.setOpenId(openId);
+                sysUser.setNickName(nickName);
+                sysUser.setAvatarUrl(avatarUrl);
+                sysUserRepo.save(sysUser);
+                authToken = new WeChatAuthenticationToken(openId, sysUser);
+            }
+            return authenticationManager.authenticate(authToken);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-       return null;
+        return null;
     }
+
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) {
-        logger.info("user [ " + authResult.getName() + " ] login success with wechat client");
-        SysUser byOpenId = sysUserRepo.findByOpenId(authResult.getName());
-        List<SimpleGrantedAuthority> authList = new ArrayList<>();
-        authList.add(new SimpleGrantedAuthority(byOpenId.getRole().val()));
-        List<String> roles = authList.stream()
+        logger.info("user [ " + authResult.getName() + " ] login success with weChat client");
+        BaseUser baseUser = (BaseUser) authResult.getCredentials();
+        List<String> roles = baseUser.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         String token = JwtUtil.createToken(authResult.getName(), roles);
-        response.setHeader(SysConstant.TOKEN_HEADER, token);
-        response.setHeader(SysConstant.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
-        CommonUtil.writeJSON(response,byOpenId);
+        response.setHeader(SysConst.TOKEN_HEADER, token);
+        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
+        CommonUtil.writeJSON(response, baseUser);
     }
+
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-        response.setHeader(SysConstant.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf( new Date().getTime())));
+        WeChatAuthenticationException weChatAuthException = (WeChatAuthenticationException) failed;
+        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("resCode",HttpServletResponse.SC_UNAUTHORIZED);
-        jsonObject.put("msg","go fill form!");
-        jsonObject.put("userInfo",sysUserRepo.findByOpenId(failed.getMessage()));
-        CommonUtil.writeJSON(response,jsonObject);
+        jsonObject.put("resCode", HttpServletResponse.SC_UNAUTHORIZED);
+        jsonObject.put("msg", "go fill form!");
+        jsonObject.put("userInfo", weChatAuthException.getBaseUser());
+        CommonUtil.writeJSON(response, jsonObject);
     }
 }

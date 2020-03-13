@@ -1,10 +1,13 @@
 package org.hackathon.aidtracker.auth.config;
 
+import org.hackathon.aidtracker.auth.filter.PasswordAuthenticationFilter;
+import org.hackathon.aidtracker.auth.security.OpenIdAuthenticationProvider;
+import org.hackathon.aidtracker.auth.security.PasswordAuthenticationProvider;
 import org.hackathon.aidtracker.constant.SysConst;
 import org.hackathon.aidtracker.auth.exception.JwtAccessDeniedHandler;
 import org.hackathon.aidtracker.auth.exception.JwtAuthenticationEntryPoint;
 import org.hackathon.aidtracker.auth.filter.JwtAuthenticationFilter;
-import org.hackathon.aidtracker.auth.filter.WeChatAuthenticationFilter;
+import org.hackathon.aidtracker.auth.filter.OpenIdAuthenticationFilter;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -23,23 +26,27 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private AuthenticationProvider authenticationProvider;
-    private SysUserRepo sysUserRepo;
+    private PasswordAuthenticationProvider passwordAuthenticationProvider;
+    private OpenIdAuthenticationProvider openIdAuthenticationProvider;
     @Autowired
-    public SecurityConfig(AuthenticationProvider authenticationProvider,SysUserRepo sysUserRepo) {
-        this.authenticationProvider=authenticationProvider;
-        this.sysUserRepo = sysUserRepo;
+    public SecurityConfig(PasswordAuthenticationProvider passwordAuthenticationProvider,
+                          OpenIdAuthenticationProvider openIdAuthenticationProvider) {
+        this.passwordAuthenticationProvider=passwordAuthenticationProvider;
+        this.openIdAuthenticationProvider=openIdAuthenticationProvider;
+
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authBuilder) throws Exception {
-        authBuilder.authenticationProvider(authenticationProvider);
+        authBuilder.authenticationProvider(passwordAuthenticationProvider)
+                .authenticationProvider(openIdAuthenticationProvider);
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(SysConst.REGISTER_PATH);
+        web.ignoring().antMatchers(SysConst.FILL_USER_PATH);
         web.ignoring().antMatchers(SysConst.TEST_RESOURCE);
+        web.ignoring().antMatchers(SysConst.SWAGGER_RESOURCE);//
     }
 
     @Override
@@ -52,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new WeChatAuthenticationFilter(SysConst.AUTH_PATH,authenticationManager(),sysUserRepo),JwtAuthenticationFilter.class)
+                .addFilterAfter(new OpenIdAuthenticationFilter(SysConst.OPEN_ID_AUTH_PATH,authenticationManager()),JwtAuthenticationFilter.class)
+                .addFilterAfter(new PasswordAuthenticationFilter(SysConst.PASSWORD_AUTH_PATH,authenticationManager()),JwtAuthenticationFilter.class)
 //                .addFilter(new LoginAuthenticationFilter(SysConstant.AUTH_PATH, authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

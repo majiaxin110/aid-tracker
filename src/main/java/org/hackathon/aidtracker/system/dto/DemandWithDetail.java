@@ -11,4 +11,12 @@ public class DemandWithDetail {
         this.demand=demand;
         this.aidDetail=aidDetail;
     }
+
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public AidDetail getAidDetail() {
+        return aidDetail;
+    }
 }

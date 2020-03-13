@@ -8,12 +8,12 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "at_sys_user")
-public class SysUser implements BaseUser {
+public class SysUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String openId;
-    private String nickName;
+    private String nickname;
     private Gender gender;
     private Role role;
     private String avatarUrl;
@@ -48,16 +48,6 @@ public class SysUser implements BaseUser {
 
     public void setDemanderDefaultAddress(String demanderDefaultAddress) {
         this.demanderDefaultAddress = demanderDefaultAddress;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
     }
 
     public static enum Gender{
@@ -100,12 +90,12 @@ public class SysUser implements BaseUser {
         this.openId = openId;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public Gender getGender() {

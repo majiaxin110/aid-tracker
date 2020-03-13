@@ -38,11 +38,18 @@ public class SysUserService {
         Optional<SysUser> byId = sysUserRepo.findById(sysUser.getId());
         if(byId.isPresent()){
             SysUser user = byId.get();
-            sysUser.setNickName(user.getNickName());
+            sysUser.setNickname(user.getNickname());
             sysUser.setAvatarUrl(user.getAvatarUrl());
             sysUser.setOpenId(user.getOpenId());
             return sysUserRepo.save(sysUser);
         }
         return null;
+    }
+
+    public SysUser findByOpenId(String openId){
+        return sysUserRepo.findByOpenId(openId);
+    }
+    public SysUser save(SysUser sysUser){
+        return sysUserRepo.save(sysUser);
     }
 }

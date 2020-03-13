@@ -1,46 +1,43 @@
 package org.hackathon.aidtracker.auth.security;
 
-import org.hackathon.aidtracker.auth.dto.BaseUser;
+import org.hackathon.aidtracker.auth.dto.OpenIdAuthUser;
+import org.hackathon.aidtracker.system.entity.SysUser;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class WeChatAuthenticationToken extends AbstractAuthenticationToken {
+public class OpenIdAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = 520L;
     private final String openId;
-    private BaseUser baseUser;
-    private Boolean firstLogin;
-    public WeChatAuthenticationToken(String openId,BaseUser baseUser, Collection<? extends GrantedAuthority> authorities) {
+    private OpenIdAuthUser openIdUser;
+    private SysUser sysUser;
+    public OpenIdAuthenticationToken(String openId, SysUser sysUser, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.openId = openId;
-        this.baseUser = baseUser;
+        this.sysUser=sysUser;
         super.setAuthenticated(true);
     }
-    public WeChatAuthenticationToken(String openId,BaseUser baseUser,boolean firstLogin){
+    public OpenIdAuthenticationToken(String openId, OpenIdAuthUser openIdUser){
         super(null);
         this.openId=openId;
-        this.baseUser=baseUser;
-        this.firstLogin=firstLogin;
+        this.openIdUser=openIdUser;
         this.setAuthenticated(false);
     }
-    public WeChatAuthenticationToken(String openId,BaseUser baseUser){
-        super(null);
-        this.openId=openId;
-        this.baseUser=baseUser;
-        this.firstLogin=true;
-        this.setAuthenticated(false);
+
+    public SysUser getSysUser() {
+        return sysUser;
     }
 
     @Override
     public Object getCredentials() {
-        return this.baseUser;
+        return null;
     }
 
     @Override
     public Object getDetails() {
-        return firstLogin;
+        return openIdUser;
     }
 
     @Override
@@ -59,6 +56,6 @@ public class WeChatAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public void eraseCredentials() {
         super.eraseCredentials();
-        this.baseUser = null;
+        this.openIdUser = null;
     }
 }

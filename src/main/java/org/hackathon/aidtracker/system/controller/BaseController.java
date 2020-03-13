@@ -22,7 +22,7 @@ public class BaseController {
         this.sysUserService=sysUserService;
     }
 
-    @PostMapping(SysConst.REGISTER_PATH)
+    @PostMapping(SysConst.FILL_USER_PATH)
     public SysUser fill(HttpServletRequest request, @RequestBody SysUser sysUser, HttpServletResponse response){
         if(Objects.isNull(sysUser)||Objects.isNull(sysUser.getId()))return null;
         sysUser = sysUserService.fill(request.getHeader(SysConst.BASE_TOKEN_HEADER), sysUser);
@@ -32,9 +32,5 @@ public class BaseController {
             response.setHeader(SysConst.TOKEN_HEADER, JwtUtil.createToken(sysUser.getOpenId(),role));
         }
         return sysUser;
-    }
-    @GetMapping("/test")
-    public String test(){
-        return "1231232";
     }
 }

@@ -1,9 +1,10 @@
 package org.hackathon.aidtracker.auth.filter;
 
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hackathon.aidtracker.auth.dto.PasswordAuthUser;
 import org.hackathon.aidtracker.constant.SysConst;
 import org.hackathon.aidtracker.auth.dto.JwtUser;
-import org.hackathon.aidtracker.auth.dto.LoginUser;
 import org.hackathon.aidtracker.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,12 +22,12 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class PasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
     private ThreadLocal<Boolean> rememberMe = new ThreadLocal<>();
-    private static final Logger logger = Logger.getLogger(LoginAuthenticationFilter.class.getName());
-    public LoginAuthenticationFilter(String url, AuthenticationManager authenticationManager) {
+    private static final Logger logger = Logger.getLogger(PasswordAuthenticationFilter.class.getName());
+    public PasswordAuthenticationFilter(String url, AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
         super.setFilterProcessesUrl(url);
     }
@@ -34,11 +35,10 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            LoginUser loginUser = objectMapper.readValue(request.getInputStream(), LoginUser.class);
-            rememberMe.set(loginUser.isRememberMe());
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword());
+            PasswordAuthUser upaUser = new ObjectMapper().readValue(request.getInputStream(), PasswordAuthUser.class);
+            rememberMe.set(upaUser.isRememberMe());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(upaUser.getUsername(), upaUser.getPassword());
             return authenticationManager.authenticate(authToken);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,6 +60,6 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-
+        response.sendError(HttpServletResponse.SC_FORBIDDEN,failed.getMessage());
     }
 }

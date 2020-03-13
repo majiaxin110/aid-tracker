@@ -2,7 +2,9 @@ package org.hackathon.aidtracker.constant;
 
 public class SysConst {
 
-    public static final String AUTH_PATH="/api-user-auth";
+    public static final String OPEN_ID_AUTH_PATH="/api-user-auth";
+
+    public static final String PASSWORD_AUTH_PATH="/api-user-auth-pass";
 
     public static final String LOGIN_SUCCESS_PATH="/supervision";
     public static final String TOKEN_HEADER = "accessToken";
@@ -21,10 +23,11 @@ public class SysConst {
     public static final String wxJSCodeKey="JSCODE";
     public static final String WX_AUTH_PARAM_KEY="authCode";
     public static final String phantomPass="fake";
-    public static final String REGISTER_PATH="/api-user-fill";
+    public static final String FILL_USER_PATH="/api-user-fill";
     public  enum LoginType{
         firstLogin,notFirstLogin
     }
+    public static String[] SWAGGER_RESOURCE={"/api/doc","/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/**"};
 
     public static String[] TEST_RESOURCE={"/api-donate-getDemandList","/api-donate-getDemandListDetail","/api-donate-subDonSup","/api-donate-saveDraft"};
 

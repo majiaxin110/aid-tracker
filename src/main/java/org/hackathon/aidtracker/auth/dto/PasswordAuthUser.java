@@ -2,7 +2,7 @@ package org.hackathon.aidtracker.auth.dto;
 
 import org.springframework.util.StringUtils;
 
-public class LoginUser {
+public class PasswordAuthUser {
     private String username;
     private String password;
     private boolean rememberMe;

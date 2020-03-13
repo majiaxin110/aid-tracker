@@ -28,7 +28,7 @@ public class SupplierService {
         this.sysUserRepo=sysUserRepo;
     }
 
-    public Page<Demand> getDemandList(int pageNum, int size){
+    public Page<Demand> getDemandPage(int pageNum, int size){
         return demandRepo.findAll(PageHelper.build(pageNum,size));
     }
 

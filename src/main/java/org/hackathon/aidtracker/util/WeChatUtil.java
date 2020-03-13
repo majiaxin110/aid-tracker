@@ -1,35 +1,29 @@
 package org.hackathon.aidtracker.util;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import org.hackathon.aidtracker.constant.SysConst;
-import org.hackathon.aidtracker.constant.WeChatUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
-
-public class WechatUtil {
+public class WeChatUtil {
     private static RestTemplate restTemplate=new RestTemplateBuilder().build();
-    private static Logger logger = LoggerFactory.getLogger(WechatUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(WeChatUtil.class);
 
     public static String getOpenId(String authCode){
 
-        String url = WeChatUrl.JS_CODE_2_SESSION.get()
-                .replace(SysConst.wxAppIdKey, SysConst.AppId)
-                .replace(SysConst.wxSecKeyKey, SysConst.AppSecret)
-                .replace(SysConst.wxJSCodeKey, authCode);
-
-
-        String str = restTemplate.getForObject(url, String.class);
-        JSONObject obj = JSONUtil.parseObj(str);
-        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
-        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
-            return obj.getStr("openid");
-        }
-        return null;
+//        String url = WeChatUrl.JS_CODE_2_SESSION.get()
+//                .replace(SysConst.wxAppIdKey, SysConst.AppId)
+//                .replace(SysConst.wxSecKeyKey, SysConst.AppSecret)
+//                .replace(SysConst.wxJSCodeKey, authCode);
+//
+//
+//        String str = restTemplate.getForObject(url, String.class);
+//        JSONObject obj = JSONUtil.parseObj(str);
+//        logger.info("js code "+authCode+"; response from wx server:"+ JSONUtil.toJsonStr(obj));
+//        if(Objects.nonNull(obj)&&Objects.nonNull(obj.getStr("openid"))){
+//            return obj.getStr("openid");
+//        }
+        return "dfsdfffgsfgs";
 //        ResponseEntity<WxAuthRes> resObj = null;
 //        try {
 //            resObj = restTemplate.getForEntity(url, WxAuthRes.class);

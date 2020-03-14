@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class SupplierService {
 
@@ -29,13 +31,11 @@ public class SupplierService {
     }
 
     public Page<Demand> getDemandPage(int pageNum, int size){
-        return demandRepo.findAll(PageHelper.build(pageNum,size));
+        return demandRepo.findByStatusIsOrderByCreateTimeDesc(Demand.Status.open,PageHelper.build(pageNum,size));
     }
 
     public DemandWithDetail getDemandWithDetail(Long demandId){
-        Demand demand = demandRepo.getOne(demandId);
-        return new DemandWithDetail(demand,aidDetailRepo.findByDemand(demand));
+        Optional<Demand> byId = demandRepo.findById(demandId);
+        return byId.map(demand -> new DemandWithDetail(demand, aidDetailRepo.findByDemand(demand))).orElse(null);
     }
-
-
 }

@@ -3,6 +3,7 @@ package org.hackathon.aidtracker.system.service;
 import org.hackathon.aidtracker.util.Encrypt;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.hackathon.aidtracker.system.entity.SysUser;
+import org.hackathon.aidtracker.util.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,19 @@ public class SysUserService {
     public SysUserService(SysUserRepo sysUserRepo){
         this.sysUserRepo=sysUserRepo;
     }
-    public SysUser fill(String baseToken,SysUser sysUser){
+    public R<SysUser> fill(String baseToken, SysUser sysUser){
         try {
             String decode = Encrypt.ins().decode(baseToken);
             long before = new Date(Long.parseLong(decode)).getTime();
             long now = new Date().getTime();
             if(before>now){
                 logger.info("invalid base token!");
-                return null;
+                return R.forbidden("invalid base token!");
             }
         } catch (NumberFormatException e) {
-            logger.info("illegal attempt access of register interface");
+            logger.info("illegal access!");
             e.printStackTrace();
-            return null;
+            return R.forbidden("illegal access!");
         }
         Optional<SysUser> byId = sysUserRepo.findById(sysUser.getId());
         if(byId.isPresent()){
@@ -41,9 +42,9 @@ public class SysUserService {
             sysUser.setNickname(user.getNickname());
             sysUser.setAvatarUrl(user.getAvatarUrl());
             sysUser.setOpenId(user.getOpenId());
-            return sysUserRepo.save(sysUser);
+            return R.success(sysUserRepo.save(sysUser));
         }
-        return null;
+        return R.exception("invalid user id!");
     }
 
     public SysUser findByOpenId(String openId){

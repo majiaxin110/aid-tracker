@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DemandRepo extends JpaRepository<Demand,Long> {
-    @Override
-    Page<Demand> findAll(Pageable pageable);
+
+    Page<Demand> findByStatusIsOrderByCreateTimeDesc(Demand.Status status,Pageable pageable);
 }

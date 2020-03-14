@@ -16,13 +16,8 @@ public class AidDetail {
     @OneToOne
     private Demand demand;
 
-    //物资种类
-    private String resourceName;
-
     //物资型号/品种要求
     private String resourceSpecs;
-
-
 
     //收货人姓名
     private String receiverName;
@@ -62,14 +57,6 @@ public class AidDetail {
         this.id = id;
     }
 
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
     public String getResourceSpecs() {
         return resourceSpecs;
     }
@@ -77,8 +64,6 @@ public class AidDetail {
     public void setResourceSpecs(String resourceSpecs) {
         this.resourceSpecs = resourceSpecs;
     }
-
-
 
     public String getReceiverName() {
         return receiverName;

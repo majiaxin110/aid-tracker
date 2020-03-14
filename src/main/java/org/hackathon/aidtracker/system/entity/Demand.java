@@ -1,6 +1,7 @@
 package org.hackathon.aidtracker.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,27 +14,39 @@ public class Demand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //标题
-    private String title;
-
     //创建时间
+    @ApiModelProperty(value="创建时间")
     private Date createTime;
 
-    //组织名称
+    //组织名称 发起单位
+    @ApiModelProperty(value="组织名称/发起单位")
     private String organization;
 
-    //地址
+    //物资种类
+    @ApiModelProperty(value="物资种类")
+    private String resourceType;
+
+    //地址 所在地区
+    @ApiModelProperty(value="所在地区")
     private String location;
 
     //受益方
+    @ApiModelProperty(value="受益方")
     private String beneficiary;
 
     //总数
+    @ApiModelProperty(value="所需物资总数")
     private int totalNum;
 
-    //还差多少可以满足
-    private int leftNum;
+
+    @ApiModelProperty(value="现在物资缺口的数量")
+    private int vacancyNum;
+
+    @ApiModelProperty(value="物资数量单位")
+    private String unit;
+
     //状态
+    @ApiModelProperty(value="需求状态;open:筹集中;closed:已满足;")
     private Status status;
 
     @JsonIgnore
@@ -41,7 +54,7 @@ public class Demand {
     @JoinColumn(name = "sys_user_id")
     private SysUser requester;
 
-    public static enum Status{
+    public  enum Status{
         open,closed
     }
 
@@ -51,14 +64,6 @@ public class Demand {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Date getCreateTime() {
@@ -77,6 +82,14 @@ public class Demand {
         this.organization = organization;
     }
 
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -92,6 +105,7 @@ public class Demand {
     public void setBeneficiary(String beneficiary) {
         this.beneficiary = beneficiary;
     }
+
     public int getTotalNum() {
         return totalNum;
     }
@@ -100,12 +114,20 @@ public class Demand {
         this.totalNum = totalNum;
     }
 
-    public int getLeftNum() {
-        return leftNum;
+    public int getVacancyNum() {
+        return vacancyNum;
     }
 
-    public void setLeftNum(int leftNum) {
-        this.leftNum = leftNum;
+    public void setVacancyNum(int vacancyNum) {
+        this.vacancyNum = vacancyNum;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Status getStatus() {

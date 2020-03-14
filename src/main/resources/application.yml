@@ -19,7 +19,7 @@ spring:
       connection-timeout: 30000
       connection-test-query: select 1
       username: root
-      password: healthme
+      password: inception
   jpa:
     database: mysql
     show-sql: true

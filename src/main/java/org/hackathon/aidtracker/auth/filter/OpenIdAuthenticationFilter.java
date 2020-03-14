@@ -8,12 +8,9 @@ import org.hackathon.aidtracker.auth.dto.OpenIdAuthUser;
 import org.hackathon.aidtracker.auth.exception.OpenIdAuthenticationException;
 import org.hackathon.aidtracker.auth.security.OpenIdAuthenticationToken;
 import org.hackathon.aidtracker.constant.SysConst;
-import org.hackathon.aidtracker.util.Encrypt;
-import org.hackathon.aidtracker.util.JwtUtil;
-import org.hackathon.aidtracker.util.WeChatUtil;
+import org.hackathon.aidtracker.util.*;
 import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.hackathon.aidtracker.system.entity.SysUser;
-import org.hackathon.aidtracker.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -111,7 +108,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
         String token = JwtUtil.createToken(authResult.getName(), roles);
         response.setHeader(SysConst.TOKEN_HEADER, token);
         response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
-        CommonUtil.writeJSON(response, result.getSysUser());
+        CommonUtil.writeJSON(response, R.success(result.getSysUser()));
     }
 
     @Override
@@ -122,9 +119,6 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
             return;
         }
         response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
-        CommonUtil.writeJSON(response, JSONUtil.createObj()
-                .putOpt("resCode",HttpServletResponse.SC_UNAUTHORIZED)
-                .putOpt("message","go fill from!")
-                .putOpt("userInfo",openIdEx.getSysUser()));
+        CommonUtil.writeJSON(response, R.unauthorized(openIdEx.getSysUser()));
     }
 }

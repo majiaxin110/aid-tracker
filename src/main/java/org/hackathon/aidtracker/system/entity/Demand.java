@@ -14,30 +14,23 @@ public class Demand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //创建时间
     @ApiModelProperty(value="创建时间")
     private Date createTime;
 
-    //组织名称 发起单位
     @ApiModelProperty(value="组织名称/发起单位")
     private String organization;
 
-    //物资种类
     @ApiModelProperty(value="物资种类")
     private String resourceType;
 
-    //地址 所在地区
     @ApiModelProperty(value="所在地区")
     private String location;
 
-    //受益方
     @ApiModelProperty(value="受益方")
     private String beneficiary;
 
-    //总数
     @ApiModelProperty(value="所需物资总数")
     private int totalNum;
-
 
     @ApiModelProperty(value="现在物资缺口的数量")
     private int vacancyNum;
@@ -45,7 +38,6 @@ public class Demand {
     @ApiModelProperty(value="物资数量单位")
     private String unit;
 
-    //状态
     @ApiModelProperty(value="需求状态;open:筹集中;closed:已满足;")
     private Status status;
 
@@ -55,7 +47,7 @@ public class Demand {
     private SysUser requester;
 
     public  enum Status{
-        open,closed
+        demanding,satisfied
     }
 
     public Long getId() {

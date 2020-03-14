@@ -72,7 +72,7 @@ public class Supply {
 
     //草稿|对接中|准备发货|运输中|完成|拒绝
     public static enum Status{
-        unchecked,connecting,ready2Send,transporting,complete,refused
+        draft,connecting,ready2Send,transporting,complete,refused
     }
     //现货|物资筹集中
     public static enum StateBeforeSend{

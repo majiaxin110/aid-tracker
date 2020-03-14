@@ -1,13 +1,11 @@
 package org.hackathon.aidtracker.util;
 
-import org.hackathon.aidtracker.system.entity.Demand;
-import org.springframework.data.domain.Page;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
 
 public class R<T> {
 
+    @ApiModelProperty
     private int code;
     private Status status;
     private String message;

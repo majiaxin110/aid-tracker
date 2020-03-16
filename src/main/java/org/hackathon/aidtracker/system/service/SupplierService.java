@@ -31,7 +31,7 @@ public class SupplierService {
     }
 
     public Page<Demand> getDemandPage(int pageNum, int size){
-        return demandRepo.findByStatusIsOrderByCreateTimeDesc(Demand.Status.open,PageHelper.build(pageNum,size));
+        return demandRepo.findByStatusIsOrderByCreateTimeDesc(Demand.Status.demanding,PageHelper.build(pageNum,size));
     }
 
     public DemandWithDetail getDemandWithDetail(Long demandId){

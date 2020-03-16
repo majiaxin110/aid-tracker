@@ -5,14 +5,24 @@ import org.springframework.util.StringUtils;
 
 public class R<T> {
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "统一返回状态code")
     private int code;
+    @ApiModelProperty(value = "统一返回状态枚举")
     private Status status;
+    @ApiModelProperty(value = "统一返回结果信息")
     private String message;
+    @ApiModelProperty(value = "数据结果包")
     private T data;
 
     enum Status{
-        success,unauthorized,forbidden,notFound,exception,error
+        success(1000),unauthorized(1001),forbidden(1002),exception(1003),error(1004);
+        private int code;
+        Status(int code){
+            this.code=code;
+        }
+        int val(){
+            return code;
+        }
     }
 
     private R() {
@@ -21,7 +31,7 @@ public class R<T> {
 
     public static<T> R<T> success(T data,String... message) {
         R<T> r=new R<>();
-        r.code=200;
+        r.code=Status.success.val();
         r.status=Status.success;
         r.data=data;
         r.message=StringUtils.arrayToCommaDelimitedString(message);
@@ -30,7 +40,7 @@ public class R<T> {
 
     public static<T> R<T> success(String... message) {
         R<T> r=new R<>();
-        r.code=200;
+        r.code=Status.success.val();
         r.status=Status.success;
         r.message=StringUtils.arrayToCommaDelimitedString(message);
         return r;
@@ -41,7 +51,7 @@ public class R<T> {
         R<T> r=new R<>();
         r.status=Status.error;
         r.message=message;
-        r.code=500;
+        r.code=Status.error.val();
         return r;
     }
 
@@ -54,7 +64,7 @@ public class R<T> {
         }        R<T> r=new R<>();
         r.status=Status.exception;
         r.message=msg;
-        r.code=500;
+        r.code=Status.exception.val();
         return r;
     }
 
@@ -70,7 +80,7 @@ public class R<T> {
         R<T> r=new R<>();
         r.status=Status.unauthorized;
         r.message=msg;
-        r.code=401;
+        r.code=Status.unauthorized.val();
         return r;
     }
 
@@ -84,7 +94,7 @@ public class R<T> {
         R<T> r=new R<>();
         r.status=Status.unauthorized;
         r.message=msg;
-        r.code=401;
+        r.code=Status.unauthorized.val();
         r.data=data;
         return r;
     }
@@ -98,7 +108,7 @@ public class R<T> {
         R<T> r=new R<>();
         r.status=Status.forbidden;
         r.message=msg;
-        r.code=403;
+        r.code=Status.forbidden.val();
         return r;
     }
 

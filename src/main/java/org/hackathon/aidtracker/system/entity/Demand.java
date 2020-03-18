@@ -50,6 +50,12 @@ public class Demand {
         demanding,satisfied
     }
 
+    public Demand(){}
+
+    public Demand(Long id){
+        this.id=id;
+    }
+
     public Long getId() {
         return id;
     }

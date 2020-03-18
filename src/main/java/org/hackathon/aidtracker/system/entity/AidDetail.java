@@ -3,6 +3,7 @@ package org.hackathon.aidtracker.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "at_aid_detail")
@@ -11,7 +12,7 @@ public class AidDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "p_id")
     @OneToOne
     private Demand demand;
@@ -30,6 +31,7 @@ public class AidDetail {
 
     private String qqAccount;
 
+    @Email
     private String email;
 
     //收货人省

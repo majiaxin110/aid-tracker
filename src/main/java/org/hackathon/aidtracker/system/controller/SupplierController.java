@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.hackathon.aidtracker.system.dto.DemandWithDetail;
+import org.hackathon.aidtracker.system.entity.AidDetail;
 import org.hackathon.aidtracker.system.entity.Demand;
 import org.hackathon.aidtracker.system.service.SupplierService;
 import org.hackathon.aidtracker.util.R;
@@ -39,7 +40,7 @@ public class SupplierController {
 
     @ApiOperation("需求详情")
     @GetMapping("/demand-detail")
-    public R<DemandWithDetail> demandDetail(Long demandId){
-        return R.success(supplierService.getDemandWithDetail(demandId));
+    public R<AidDetail> demandDetail(Long demandId){
+        return R.success(supplierService.getDemandDetail(demandId));
     }
 }

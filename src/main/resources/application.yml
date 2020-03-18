@@ -3,6 +3,14 @@ server:
   servlet:
     context-path: /
 spring:
+  application:
+    name: aid-tracker
+  boot:
+    admin:
+      client:
+        url: http://localhost:8769
+        username: James
+        password: inception
   aop:
     proxy-target-class: true
   datasource:
@@ -19,7 +27,7 @@ spring:
       connection-timeout: 30000
       connection-test-query: select 1
       username: root
-      password: inception
+      password: healthme
   jpa:
     database: mysql
     show-sql: true
@@ -34,5 +42,16 @@ spring:
     enabled: true
     suffix: .html
     mode: HTML
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
 mybatis:
   mapper-locations: classpath:org/hackathon/aidtracker/mybatis/mapper/*.xml
+logging:
+  file:
+    path: E:\out

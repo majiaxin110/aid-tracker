@@ -39,6 +39,7 @@ public class Demand {
     private String unit;
 
     @ApiModelProperty(value="需求状态;open:筹集中;closed:已满足;")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @JsonIgnore

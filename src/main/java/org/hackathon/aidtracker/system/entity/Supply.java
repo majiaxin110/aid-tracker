@@ -32,9 +32,11 @@ public class Supply {
     private String unit;
 
     //物资发货前状态
+    @Enumerated(EnumType.STRING)
     private StateBeforeSend stateBeforeSend;
 
     //物流方式
+    @Enumerated(EnumType.STRING)
     private Way2Pickup pickupWay;
 
     //发货省

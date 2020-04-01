@@ -14,13 +14,16 @@ public class SysUser {
     private Long id;
     private String openId;
     private String nickname;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
     private Role role;
     private String avatarUrl;
     private String country;
     private String province;
     private String city;
     private String orgName;
+    @Enumerated(EnumType.STRING)
     private OrgType orgType;
     private String supplierLocation;    //捐赠方所在地
     private String demanderDefaultAddress;    //接收方默认收货地址

@@ -24,9 +24,9 @@ public class SysUserService {
     }
     public R<SysUser> fill(String baseToken, SysUser sysUser){
         try {
-            String decode = Encrypt.ins().decode(baseToken);
+            String decode = Encrypt.INS.decode(baseToken);
             long before = new Date(Long.parseLong(decode)).getTime();
-            long now = new Date().getTime();
+            long now = System.currentTimeMillis();
             if(before>now){
                 logger.info("invalid base token!");
                 return R.forbidden("invalid base token!");

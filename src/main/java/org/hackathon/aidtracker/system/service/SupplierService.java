@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@AtLog("bbbb")
 @Service
 public class SupplierService {
 
@@ -19,15 +18,13 @@ public class SupplierService {
     private AidDetailRepo aidDetailRepo;
     private DemandRepo demandRepo;
     private SupplyRepo supplyRepo;
-    private LogisticsRepo logisticsRepo;
     private SysUserRepo sysUserRepo;
 
     @Autowired
     public SupplierService(AidDetailRepo aidDetailRepo,DemandRepo demandRepo,
-                           SupplyRepo supplyRepo,LogisticsRepo logisticsRepo,SysUserRepo sysUserRepo){
+                           SupplyRepo supplyRepo,SysUserRepo sysUserRepo){
         this.aidDetailRepo=aidDetailRepo;
         this.demandRepo=demandRepo;
-        this.logisticsRepo=logisticsRepo;
         this.supplyRepo=supplyRepo;
         this.sysUserRepo=sysUserRepo;
     }

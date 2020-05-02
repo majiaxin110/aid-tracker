@@ -5,12 +5,12 @@ server:
 spring:
   application:
     name: aid-tracker
-  boot:
-    admin:
-      client:
-        url: http://localhost:8769
-        username: James
-        password: inception
+#  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8769
+#        username: James
+#        password: inception
   aop:
     proxy-target-class: true
   datasource:
@@ -27,31 +27,21 @@ spring:
       connection-timeout: 30000
       connection-test-query: select 1
       username: root
-      password: healthme
+      password: inception
   jpa:
     database: mysql
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
-  thymeleaf:
-    cache: false
-    check-template: true
-    check-template-location: true
-    encoding: UTF-8
-    enabled: true
-    suffix: .html
-    mode: HTML
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
-mybatis:
-  mapper-locations: classpath:org/hackathon/aidtracker/mybatis/mapper/*.xml
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  endpoint:
+#    health:
+#      show-details: ALWAYS
 logging:
   file:
     path: E:\out

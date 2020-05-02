@@ -107,7 +107,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
                 .collect(Collectors.toList());
         String token = JwtUtil.createToken(authResult.getName(), roles);
         response.setHeader(SysConst.TOKEN_HEADER, token);
-        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
+        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.INS.encode(String.valueOf(System.currentTimeMillis())));
         CommonUtil.writeJSON(response, R.success(result.getSysUser()));
     }
 
@@ -118,7 +118,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
             response.sendError(HttpServletResponse.SC_FORBIDDEN,openIdEx.getMessage());
             return;
         }
-        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.ins().encode(String.valueOf(new Date().getTime())));
+        response.setHeader(SysConst.BASE_TOKEN_HEADER, Encrypt.INS.encode(String.valueOf(System.currentTimeMillis())));
         CommonUtil.writeJSON(response, R.unauthorized(openIdEx.getSysUser()));
     }
 }

@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.config;
+package org.hackathon.aidtracker.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

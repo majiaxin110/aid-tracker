@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.config;
+package org.hackathon.aidtracker.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;

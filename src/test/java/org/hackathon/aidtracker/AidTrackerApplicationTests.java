@@ -20,6 +20,7 @@ import javax.xml.transform.Transformer;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class AidTrackerApplicationTests {
@@ -40,8 +41,7 @@ class AidTrackerApplicationTests {
 
     @Test
     void insert(){
-
-
+        System.out.println(  3 ^ 2);
     }
 
 }

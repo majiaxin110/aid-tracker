@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable().httpBasic()
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests().anyRequest().permitAll()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new OpenIdAuthenticationFilter(SysConst.OPEN_ID_AUTH_PATH,authenticationManager()),JwtAuthenticationFilter.class)

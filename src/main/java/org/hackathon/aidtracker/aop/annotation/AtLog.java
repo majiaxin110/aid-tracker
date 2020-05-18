@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.annotation;
+package org.hackathon.aidtracker.aop.annotation;
 
 
 import java.lang.annotation.ElementType;

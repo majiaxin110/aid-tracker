@@ -1,6 +1,7 @@
 package org.hackathon.aidtracker.system.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "at_logistics")
@@ -12,4 +13,8 @@ public class Logistics {
 
 
     private Long pId;
+
+
+
+
 }

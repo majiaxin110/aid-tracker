@@ -23,5 +23,4 @@ public class Encrypt {
     public  String decode(String encryptStr){
         return  aes.decryptStr(encryptStr);
     }
-
 }

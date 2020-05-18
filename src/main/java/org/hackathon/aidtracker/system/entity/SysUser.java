@@ -4,13 +4,16 @@ import org.hackathon.aidtracker.auth.dto.BaseUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "at_sys_user")
 public class SysUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "ops!")
     private Long id;
     private String openId;
     private String nickname;
@@ -164,4 +167,56 @@ public class SysUser {
     public void setOrgType(OrgType orgType) {
         this.orgType = orgType;
     }
+
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        SysUser sysUser = (SysUser) o;
+//        return Objects.equal(id, sysUser.id) &&
+//                Objects.equal(openId, sysUser.openId) &&
+//                Objects.equal(nickname, sysUser.nickname) &&
+//                gender == sysUser.gender &&
+//                role == sysUser.role &&
+//                Objects.equal(avatarUrl, sysUser.avatarUrl) &&
+//                Objects.equal(country, sysUser.country) &&
+//                Objects.equal(province, sysUser.province) &&
+//                Objects.equal(city, sysUser.city) &&
+//                Objects.equal(orgName, sysUser.orgName) &&
+//                orgType == sysUser.orgType &&
+//                Objects.equal(supplierLocation, sysUser.supplierLocation) &&
+//                Objects.equal(demanderDefaultAddress, sysUser.demanderDefaultAddress);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hashCode(id, openId, nickname, gender, role, avatarUrl, country, province, city, orgName, orgType, supplierLocation, demanderDefaultAddress);
+//    }
+
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        SysUser sysUser = (SysUser) o;
+//        return id.equals(sysUser.id) &&
+//                Objects.equals(openId, sysUser.openId) &&
+//                Objects.equals(nickname, sysUser.nickname) &&
+//                gender == sysUser.gender &&
+//                role == sysUser.role &&
+//                Objects.equals(avatarUrl, sysUser.avatarUrl) &&
+//                Objects.equals(country, sysUser.country) &&
+//                Objects.equals(province, sysUser.province) &&
+//                Objects.equals(city, sysUser.city) &&
+//                Objects.equals(orgName, sysUser.orgName) &&
+//                orgType == sysUser.orgType &&
+//                Objects.equals(supplierLocation, sysUser.supplierLocation) &&
+//                Objects.equals(demanderDefaultAddress, sysUser.demanderDefaultAddress);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, openId, nickname, gender, role, avatarUrl, country, province, city, orgName, orgType, supplierLocation, demanderDefaultAddress);
+//    }
 }

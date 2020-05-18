@@ -14,9 +14,13 @@ public class AppContextAccessor implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         AppContextAccessor.context=applicationContext;
     }
-    public static Object getBean(String name) throws BeansException {
-        return AppContextAccessor.context.getBean(name);
+    public static<T> T getBean(Class<T> cls){
+        return context.getBean(cls);
     }
+    public static<T> T getBean(Class<T> cls,String qualifier){
+        return context.getBean(qualifier,cls);
+    }
+
 
     public static ApplicationContext getContext(){
         return AppContextAccessor.context;

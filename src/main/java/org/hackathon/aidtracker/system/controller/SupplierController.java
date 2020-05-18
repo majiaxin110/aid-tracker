@@ -43,4 +43,8 @@ public class SupplierController {
     public R<AidDetail> demandDetail(Long demandId){
         return R.success(supplierService.getDemandDetail(demandId));
     }
+    @GetMapping("/test")
+    public void test( ){
+      supplierService.test();
+    }
 }

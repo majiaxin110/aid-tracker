@@ -5,12 +5,15 @@ server:
 spring:
   application:
     name: aid-tracker
-  boot:
-    admin:
-      client:
-        url: http://localhost:8769
-        username: James
-        password: inception
+  servlet:
+    multipart:
+      max-file-size: 4GB
+  #  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8769
+#        username: James
+#        password: inception
   aop:
     proxy-target-class: true
   datasource:
@@ -42,16 +45,16 @@ spring:
     enabled: true
     suffix: .html
     mode: HTML
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
-mybatis:
-  mapper-locations: classpath:org/hackathon/aidtracker/mybatis/mapper/*.xml
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  endpoint:
+#    health:
+#      show-details: ALWAYS
+#mybatis:
+#  mapper-locations: classpath:org/hackathon/aidtracker/mybatis/mapper/*.xml
 logging:
   file:
     path: E:\out

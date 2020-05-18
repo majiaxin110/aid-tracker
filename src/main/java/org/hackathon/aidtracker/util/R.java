@@ -1,19 +1,10 @@
 package org.hackathon.aidtracker.util;
-
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.util.StringUtils;
-
 public class R<T> {
 
-    @ApiModelProperty(value = "统一返回状态code")
     private int code;
-    @ApiModelProperty(value = "统一返回状态枚举")
     private Status status;
-    @ApiModelProperty(value = "统一返回结果信息")
     private String message;
-    @ApiModelProperty(value = "数据结果包")
     private T data;
-
     enum Status{
         success(1000),unauthorized(1001),forbidden(1002),exception(1003),error(1004);
         private int code;
@@ -24,94 +15,54 @@ public class R<T> {
             return code;
         }
     }
-
-    private R() {
-
-    }
-
-    public static<T> R<T> success(T data,String... message) {
+    private R() {}
+    public static<T> R<T> success(T data) {
         R<T> r=new R<>();
-        r.code=Status.success.val();
-        r.status=Status.success;
+        r.code= Status.success.val();
+        r.status= Status.success;
         r.data=data;
-        r.message=StringUtils.arrayToCommaDelimitedString(message);
         return r;
     }
-
-    public static<T> R<T> success(String... message) {
+    public static R success() {
+        return build(Status.success,null);
+    }
+    public static R success(String message) {
+        return build(Status.success,message);
+    }
+    public static R error(String message) {
+        return build(Status.error,message);
+    }
+    public static R exception(String message) {
+        return build(Status.exception,message);
+    }
+    public static R unauthorized(String message) {
+        return build(Status.unauthorized,message);
+    }
+    public static<T> R<T> unauthorized(T o) {
         R<T> r=new R<>();
-        r.code=Status.success.val();
-        r.status=Status.success;
-        r.message=StringUtils.arrayToCommaDelimitedString(message);
+        r.code= Status.success.val();
+        r.status= Status.success;
+        r.data=o;
         return r;
     }
+    public static R unauthorized() {
+        return build(Status.unauthorized,null);
+    }
 
-    public static<T> R<T> error(String message) {
-        if(StringUtils.isEmpty(message)) message = "unknown error";
-        R<T> r=new R<>();
-        r.status=Status.error;
+    public static R forbidden(String message) {
+      return build(Status.forbidden,message);
+    }
+    public static R forbidden() {
+        return build(Status.forbidden,null);
+    }
+
+    private static R build(Status status,String message){
+        R r=new R<>();
+        r.status= status;
+        r.code= status.val();
         r.message=message;
-        r.code=Status.error.val();
         return r;
     }
-
-    public static<T> R<T> exception(String... message) {
-        String msg;
-        if(message.length==0){
-            msg="unknown exception!";
-        }else{
-            msg=StringUtils.arrayToCommaDelimitedString(message);
-        }        R<T> r=new R<>();
-        r.status=Status.exception;
-        r.message=msg;
-        r.code=Status.exception.val();
-        return r;
-    }
-
-
-
-    public static<T> R<T> unauthorized(String... message) {
-        String msg;
-        if(message.length==0){
-            msg="no permission!";
-        }else{
-            msg=StringUtils.arrayToCommaDelimitedString(message);
-        }
-        R<T> r=new R<>();
-        r.status=Status.unauthorized;
-        r.message=msg;
-        r.code=Status.unauthorized.val();
-        return r;
-    }
-
-    public static<T> R<T> unauthorized(T data,String... message) {
-        String msg;
-        if(message.length==0){
-            msg="complete user info!";
-        }else{
-            msg=StringUtils.arrayToCommaDelimitedString(message);
-        }
-        R<T> r=new R<>();
-        r.status=Status.unauthorized;
-        r.message=msg;
-        r.code=Status.unauthorized.val();
-        r.data=data;
-        return r;
-    }
-    public static<T> R<T> forbidden(String... message) {
-        String msg;
-        if(message.length==0){
-            msg="request forbidden!";
-        }else{
-            msg=StringUtils.arrayToCommaDelimitedString(message);
-        }
-        R<T> r=new R<>();
-        r.status=Status.forbidden;
-        r.message=msg;
-        r.code=Status.forbidden.val();
-        return r;
-    }
-
 
     public int getCode() {
         return code;

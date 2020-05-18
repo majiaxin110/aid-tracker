@@ -5,18 +5,19 @@ import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 
 
-public class Encrypt {
-
+public enum Encrypt {
+    INS;
     private SymmetricCrypto aes;
-    private static Encrypt instance = new Encrypt();
+     Encrypt(){
 
-    public static Encrypt ins(){
-        return instance;
+         //would be better to use a static key
+         byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
+         //byte[] key ="".getBytes();
+         aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
     }
-    public Encrypt(){
-        byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
-        aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
-    }
+
+
+
     public  String encode(String content){
         return  aes.encryptHex(content);
     }

@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.config;
+package org.hackathon.aidtracker.config;
 
 import org.hackathon.aidtracker.multipart.AsyncMultipartResolver;
 import org.hackathon.aidtracker.multipart.CustomRawStreamHandler;

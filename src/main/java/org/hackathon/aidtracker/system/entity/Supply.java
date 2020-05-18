@@ -62,6 +62,7 @@ public class Supply {
     //备注
     private String memo;
 
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
     //创建时间

@@ -1,4 +1,4 @@
-package org.hackathon.aidtracker.auth.config;
+package org.hackathon.aidtracker.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

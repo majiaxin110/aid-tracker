@@ -27,7 +27,7 @@ public class SysConst {
     public  enum LoginType{
         firstLogin,notFirstLogin
     }
-    public static String[] SWAGGER_RESOURCE={"/api/doc","/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/**"};
+    public static String[] SWAGGER_RESOURCE={"/api/doc","/frame","/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/**"};
 
     public static String[] TEST_RESOURCE={"/api-donate-getDemandList","/api-donate-getDemandListDetail","/api-donate-subDonSup","/api-donate-saveDraft"};
 

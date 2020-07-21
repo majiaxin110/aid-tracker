@@ -14,7 +14,7 @@ public class SysExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public R<Object> handle(Exception ex){
-        return R.exception();
+        return R.exception(ex.getMessage());
     }
 
 

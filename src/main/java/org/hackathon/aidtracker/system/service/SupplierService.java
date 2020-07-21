@@ -1,8 +1,9 @@
 package org.hackathon.aidtracker.system.service;
 
-import org.hackathon.aidtracker.annotation.AtLog;
-import org.hackathon.aidtracker.system.dao.*;
-import org.hackathon.aidtracker.system.dto.DemandWithDetail;
+import org.hackathon.aidtracker.system.dao.AidDetailRepo;
+import org.hackathon.aidtracker.system.dao.DemandRepo;
+import org.hackathon.aidtracker.system.dao.SupplyRepo;
+import org.hackathon.aidtracker.system.dao.SysUserRepo;
 import org.hackathon.aidtracker.system.entity.AidDetail;
 import org.hackathon.aidtracker.system.entity.Demand;
 import org.hackathon.aidtracker.util.PageHelper;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 @Service
 public class SupplierService {
 

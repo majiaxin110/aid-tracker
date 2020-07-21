@@ -1,10 +1,7 @@
 package org.hackathon.aidtracker.multipart;
 
 import org.apache.commons.fileupload.*;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.aspectj.lang.annotation.Aspect;
-import org.hackathon.aidtracker.auth.config.AppContextAccessor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hackathon.aidtracker.config.AppContextAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -14,7 +11,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //only POST method supported for uploading file
 @Component("multipartResolver")
@@ -41,6 +40,7 @@ public class AsyncMultipartResolver extends CommonsMultipartResolver {
         Assert.notNull(request, "Request must not be null");
         if (this.resolveLazily) {
             return new DefaultMultipartHttpServletRequest(request) {
+                @Override
                 protected void initializeMultipart() {
                     MultipartParsingResult parsingResult =parseRequest(request);
                     this.setMultipartFiles(parsingResult.getMultipartFiles());
@@ -87,7 +87,7 @@ public class AsyncMultipartResolver extends CommonsMultipartResolver {
            this.fields=fields;
        }
          Anchor (String... fields){
-           this.rawStreamHandler=AppContextAccessor.getBean(DefaultRawStreamHandler.class);
+           this.rawStreamHandler= AppContextAccessor.getBean(DefaultRawStreamHandler.class);
            this.fields=fields;
        }
 

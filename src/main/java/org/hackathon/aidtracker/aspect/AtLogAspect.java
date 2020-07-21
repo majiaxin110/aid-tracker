@@ -7,10 +7,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.hackathon.aidtracker.annotation.AtLog;
+import org.hackathon.aidtracker.aop.annotation.AtLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Method;
 
 
@@ -21,7 +22,7 @@ public class AtLogAspect {
     private static final Logger logger=LoggerFactory.getLogger(AtLogAspect.class);
 
 
-    @Pointcut("@annotation(org.hackathon.aidtracker.annotation.AtLog)") //method under this annotation
+    @Pointcut("@annotation(org.hackathon.aidtracker.aop.annotation.AtLog)") //method under this annotation
     public void logPointCut(){}
 
     @Around("logPointCut()")

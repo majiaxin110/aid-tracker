@@ -1,12 +1,7 @@
 package org.hackathon.aidtracker.system.entity;
 
-import org.hackathon.aidtracker.auth.dto.BaseUser;
-import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "at_sys_user")

@@ -1,7 +1,5 @@
 package org.hackathon.aidtracker.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
